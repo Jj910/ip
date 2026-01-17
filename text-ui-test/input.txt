@@ -6,4 +6,6 @@ list
 mark 2
 list
 oopsies
+delete 2
+list
 bye

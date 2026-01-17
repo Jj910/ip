@@ -17,7 +17,8 @@ public class Babby {
         System.out.println("\tevent {task} /from {start time} /to {end time} -> Adds a event task\n");
         System.out.println("\tlist -> Lists all tasks");
         System.out.println("\tmark {task number} -> Marks the task as done");
-        System.out.println("\tunmark {task number} -> Marks the task as not done\n");
+        System.out.println("\tunmark {task number} -> Marks the task as not done");
+        System.out.println("\tdelete {task number} -> Deletes the task from the list\n");
         System.out.println("\tbye -> Exits the program :<\n");
 
         // Main command loop
@@ -67,6 +68,14 @@ public class Babby {
                 Event task = new Event(inputList[0], inputList[1], inputList[2]);
                 taskList.add(task);
                 System.out.println("\tOkay, I added this task: " + task);
+                System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+            }
+
+            else if (input.matches("delete \\d+")) {
+                String[] inputList = input.split(" ");
+                int index = Integer.parseInt(inputList[1]) - 1;
+                Task task = taskList.remove(index);
+                System.out.println("\tOkies, I deleted this task:" + task);
                 System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
             }
 
