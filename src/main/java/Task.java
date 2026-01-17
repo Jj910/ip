@@ -1,7 +1,8 @@
 // The task class tracks the name of the task, and whether the class is complete. The order of the tasks are tracked by Babby
-public class Task {
-    String title;
-    Boolean isComplete;
+public abstract class Task {
+    private String title;
+    private Boolean isComplete;
+
     public Task(String title) {
         this.title = title;
         this.isComplete = false;
