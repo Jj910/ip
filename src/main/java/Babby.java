@@ -45,6 +45,21 @@ public class Babby {
                 System.out.println("\tOkay, I added this task: " + task);
             }
 
+            else if (input.matches("deadline .+")) {
+                String[] inputList = input.replaceFirst("deadline ", "").split(" /by ");
+                Deadline task = new Deadline(inputList[0], inputList[1]);
+                taskList.add(task);
+                System.out.println("\tOkay, I added this task: " + task);
+            }
+
+            else if (input.matches("event .+")) {
+                String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
+                Event task = new Event(inputList[1]);
+                taskList.add(task);
+                System.out.println("\tOkay, I added this task: " + task);
+            }
+
+
             else { // Echo input
                 System.out.println(input);
             }
