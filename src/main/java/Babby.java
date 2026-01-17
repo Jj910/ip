@@ -40,7 +40,7 @@ public class Babby {
 
             else if (input.matches("todo .+")) {
                 String[] inputList = input.split("todo ");
-                ToDos task = new ToDos(inputList[1]);
+                ToDo task = new ToDo(inputList[1]);
                 taskList.add(task);
                 System.out.println("\tOkay, I added this task: " + task);
             }
