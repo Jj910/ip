@@ -70,8 +70,8 @@ public class Babby {
                 System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
             }
 
-            else { // Echo input
-                System.out.println(input);
+            else { // Unknown command
+                System.out.println("\tI'm sorry, I didn't quite get that :<\n\tCould you try again?");
             }
         }
         System.out.println("\tByebyee! See you again soon!");

@@ -45,4 +45,7 @@ What can I do for you?
 		2) [D] [?] return book (By: Sunday)
 		3) [E] [ ] project meeting (From: Mon 2pm To: 4pm)
 -------------------------------------
+	I'm sorry, I didn't quite get that :<
+	Could you try again?
+-------------------------------------
 	Byebyee! See you again soon!
