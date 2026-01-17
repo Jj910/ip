@@ -11,8 +11,14 @@ public class Babby {
         String logo = " ______        _     _           _ \n(____  \\      | |   | |         | |\n ____)  )_____| |__ | |__  _   _| |\n|  __  ((____ |  _ \\|  _ \\| | | |_|\n| |__)  ) ___ | |_) ) |_) ) |_| |_ \n|______/\\_____|____/|____/ \\__  |_|\n                          (____/   ";
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3\n----------------------------------\n");
         // To do: Create a commands object to store the command, the purpose, and the code to run it
-        System.out.println("What can I do for you?\ntodo [task title] -> Adds a todo task\nlist -> Lists all tasks\nmark [task number] -> Marks the task as done\nunmark [task number] -> Marks the task as not done\nbye -> Exits the program\n");
-        
+        System.out.println("What can I do for you?");
+        System.out.println("\ttodo [task title] -> Adds a todo task\n");
+        System.out.println("\tlist -> Lists all tasks\n");
+        System.out.println("\tmark [task number] -> Marks the task as done\n");
+        System.out.println("\tunmark [task number] -> Marks the task as not done\n");
+        System.out.println("\tbye -> Exits the program\n");
+
+        // Main command loop
         while (true) {
             System.out.println("-------------------------------------");
             String input = scanner.nextLine();
