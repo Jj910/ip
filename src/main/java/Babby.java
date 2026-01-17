@@ -27,8 +27,9 @@ public class Babby {
 
     public static void list() {
         int i = 1;
-        for (String line : inputList) {
-            System.out.println(i + ") " + line);
+        System.out.println("\tHere are your tasks:\n");
+        for (Task task : inputList) {
+            System.out.println(i + ") " + task);
             i++;
         }
         return;
