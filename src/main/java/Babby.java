@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Babby {
     // List to store user input
-    private static ArrayList<String> inputList = new ArrayList<>();
+    private static ArrayList<Task> inputList = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Make scanner
