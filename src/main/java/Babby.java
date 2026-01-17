@@ -38,6 +38,10 @@ public class Babby {
                 taskList.add(new Task(input));
                 System.out.println("\tAdded: "+input);
             }
+            
+            else { // Echo input
+                System.out.println(input);
+            }
         }
         System.out.println("\tSee you again soon!");
     }
