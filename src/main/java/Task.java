@@ -1,4 +1,4 @@
-// The task class tracks the name of the task, and whether the class is complete. It does not track the order of the class
+// The task class tracks the name of the task, and whether the class is complete. The order of the tasks are tracked by Babby
 public class Task {
     String title;
     Boolean isComplete;
