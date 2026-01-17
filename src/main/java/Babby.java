@@ -12,13 +12,13 @@ public class Babby {
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3\n----------------------------------\n");
         // To do: Create a commands object to store the command, the purpose, and the code to run it
         System.out.println("What can I do for you?");
-        System.out.println("\ttodo {task} -> Adds a todo task\n");
-        System.out.println("\tdeadline {task} /by {deadline} -> Adds a deadline task\n");
+        System.out.println("\ttodo {task} -> Adds a todo task");
+        System.out.println("\tdeadline {task} /by {deadline} -> Adds a deadline task");
         System.out.println("\tevent {task} /from {start time} /to {end time} -> Adds a event task\n");
-        System.out.println("\tlist -> Lists all tasks\n");
-        System.out.println("\tmark {task number} -> Marks the task as done\n");
+        System.out.println("\tlist -> Lists all tasks");
+        System.out.println("\tmark {task number} -> Marks the task as done");
         System.out.println("\tunmark {task number} -> Marks the task as not done\n");
-        System.out.println("\tbye -> Exits the program\n");
+        System.out.println("\tbye -> Exits the program :<\n");
 
         // Main command loop
         while (true) {
@@ -74,7 +74,7 @@ public class Babby {
                 System.out.println(input);
             }
         }
-        System.out.println("\tSee you again soon!");
+        System.out.println("\tByebyee! See you again soon!");
     }
 
     public static void list() {
