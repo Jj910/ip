@@ -43,6 +43,7 @@ public class Babby {
                 ToDo task = new ToDo(inputList[1]);
                 taskList.add(task);
                 System.out.println("\tOkay, I added this task: " + task);
+                System.out.println("You have " + taskList.size() + " tasks in the list now!");
             }
 
             else if (input.matches("deadline .+")) {
@@ -50,6 +51,7 @@ public class Babby {
                 Deadline task = new Deadline(inputList[0], inputList[1]);
                 taskList.add(task);
                 System.out.println("\tOkay, I added this task: " + task);
+                System.out.println("You have " + taskList.size() + " tasks in the list now!");
             }
 
             else if (input.matches("event .+")) {
@@ -57,8 +59,8 @@ public class Babby {
                 Event task = new Event(inputList[0], inputList[1], inputList[2]);
                 taskList.add(task);
                 System.out.println("\tOkay, I added this task: " + task);
+                System.out.println("You have " + taskList.size() + " tasks in the list now!");
             }
-
 
             else { // Echo input
                 System.out.println(input);
