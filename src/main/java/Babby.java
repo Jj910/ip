@@ -54,7 +54,7 @@ public class Babby {
 
             else if (input.matches("event .+")) {
                 String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
-                Event task = new Event(inputList[1]);
+                Event task = new Event(inputList[0], inputList[1], inputList[2]);
                 taskList.add(task);
                 System.out.println("\tOkay, I added this task: " + task);
             }
