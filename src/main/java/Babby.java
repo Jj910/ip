@@ -14,15 +14,32 @@ public class Babby {
 
         // Start echo
         while (true) {
+            System.out.println("-------------------------------------");
             String input = scanner.nextLine();
+
+            // Possible commands
             if (input.equals("bye")) break;
-            if (input.equals("list")) list();
+            else if (input.equals("list")) list();
+            else if (input.matches("mark \\d+")) {
+                String[] inputList = input.split(" ");
+                int index = Integer.parseInt(inputList[1]) - 1;
+                Task task = taskList.get(index);
+                task.markDone(); // Mark the task as done
+                System.out.println("\tGood job! You completed this task:\n\t\t" + task);
+            }
+            else if (input.matches("unmark \\d+")) {
+                String[] inputList = input.split(" ");
+                int index = Integer.parseInt(inputList[1]) - 1;
+                Task task = taskList.get(index);
+                task.markToDo(); // Mark the task as not done
+                System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
+            }
             else { // Add task to inputList
-                inputList.add(input);
+                taskList.add(new Task(input));
                 System.out.println("\tAdded: "+input);
             }
         }
-        System.out.println("See you again soon!");
+        System.out.println("\tSee you again soon!");
     }
 
     public static void list() {
