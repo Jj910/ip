@@ -12,8 +12,7 @@ public class Babby {
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3\n----------------------------------\n");
         // To do: Create a commands object to store the command, the purpose, and the code to run it
         System.out.println("What can I do for you?\nlist -> Lists all tasks\nmark [task number] -> Marks the task as done\nunmark [task number] -> Marks the task as not done\nbye -> Exits the program\n");
-
-        // Start echo
+        
         while (true) {
             System.out.println("-------------------------------------");
             String input = scanner.nextLine();
