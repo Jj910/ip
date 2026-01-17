@@ -11,7 +11,7 @@ public class Babby {
         String logo = " ______        _     _           _ \n(____  \\      | |   | |         | |\n ____)  )_____| |__ | |__  _   _| |\n|  __  ((____ |  _ \\|  _ \\| | | |_|\n| |__)  ) ___ | |_) ) |_) ) |_| |_ \n|______/\\_____|____/|____/ \\__  |_|\n                          (____/   ";
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3\n----------------------------------\n");
         // To do: Create a commands object to store the command, the purpose, and the code to run it
-        System.out.println("What can I do for you?\nlist -> Lists all tasks\nmark [task number] -> Marks the task as done\nunmark [task number] -> Marks the task as not done\nbye -> Exits the program\n");
+        System.out.println("What can I do for you?\ntodo [task title] -> Adds a todo task\nlist -> Lists all tasks\nmark [task number] -> Marks the task as done\nunmark [task number] -> Marks the task as not done\nbye -> Exits the program\n");
         
         while (true) {
             System.out.println("-------------------------------------");
@@ -19,7 +19,9 @@ public class Babby {
 
             // Possible commands
             if (input.equals("bye")) break;
+
             else if (input.equals("list")) list();
+
             else if (input.matches("mark \\d+")) {
                 String[] inputList = input.split(" ");
                 int index = Integer.parseInt(inputList[1]) - 1;
@@ -27,6 +29,7 @@ public class Babby {
                 task.markDone(); // Mark the task as done
                 System.out.println("\tGood job! You completed this task:\n\t\t" + task);
             }
+
             else if (input.matches("unmark \\d+")) {
                 String[] inputList = input.split(" ");
                 int index = Integer.parseInt(inputList[1]) - 1;
@@ -34,11 +37,14 @@ public class Babby {
                 task.markToDo(); // Mark the task as not done
                 System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
             }
-            else { // Add task to inputList
-                taskList.add(new Task(input));
-                System.out.println("\tAdded: "+input);
+
+            else if (input.matches("todo .+")) {
+                String[] inputList = input.split("todo ");
+                ToDos task = new ToDos(inputList[1]);
+                taskList.add(task);
+                System.out.println("\tOkay, I added this task: " + task);
             }
-            
+
             else { // Echo input
                 System.out.println(input);
             }
