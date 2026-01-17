@@ -1,7 +1,48 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+Hello! I'm
+ ______        _     _           _ 
+(____  \      | |   | |         | |
+ ____)  )_____| |__ | |__  _   _| |
+|  __  ((____ |  _ \|  _ \| | | |_|
+| |__)  ) ___ | |_) ) |_) ) |_| |_ 
+|______/\_____|____/|____/ \__  |_|
+                          (____/   
+So nice to meet you! Lets be friends <3
+----------------------------------
 
+What can I do for you?
+	todo {task} -> Adds a todo task
+	deadline {task} /by {deadline} -> Adds a deadline task
+	event {task} /from {start time} /to {end time} -> Adds a event task
+
+	list -> Lists all tasks
+	mark {task number} -> Marks the task as done
+	unmark {task number} -> Marks the task as not done
+
+	bye -> Exits the program :<
+
+-------------------------------------
+	Here are your tasks:
+-------------------------------------
+	Okay, I added this task: [T] [ ] read book
+        You have 1 tasks in the list now!
+-------------------------------------
+	Okay, I added this task: [D] [ ] return book (By: Sunday)
+        You have 2 tasks in the list now!
+-------------------------------------
+	Okay, I added this task: [E] [ ] project meeting (From: Mon 2pm To: 4pm)
+        You have 3 tasks in the list now!
+-------------------------------------
+	Here are your tasks:
+		1) [T] [ ] read book
+		2) [D] [ ] return book (By: Sunday)
+		3) [E] [ ] project meeting (From: Mon 2pm To: 4pm)
+-------------------------------------
+	Good job! You completed this task:
+		[D] [?] return book (By: Sunday)
+-------------------------------------
+	Here are your tasks:
+		1) [T] [ ] read book
+		2) [D] [?] return book (By: Sunday)
+		3) [E] [ ] project meeting (From: Mon 2pm To: 4pm)
+-------------------------------------
+	Byebyee! See you again soon!
