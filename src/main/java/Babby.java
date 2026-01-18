@@ -3,11 +3,11 @@ import java.util.*;
 
 public class Babby {
     // List to store user input
-    private static ArrayList<Task> taskList = new ArrayList<>();
+    private static final ArrayList<Task> taskList = new ArrayList<>();
 
     // Command enums
 
-    private static enum Command {
+    private enum Command {
         TODO("todo"),
         DEADLINE("deadline"),
         EVENT("event"),
@@ -18,9 +18,9 @@ public class Babby {
         BYE("bye"),
         UNKNOWN("");
 
-        private String command;
+        private final String command;
 
-        private Command(String command) {
+        Command(String command) {
             this.command = command;
         }
 
@@ -118,7 +118,6 @@ public class Babby {
             System.out.println("\t\t" + i + ") " + task);
             i++;
         }
-        return;
     }
 
     public static void mark(String input) {
