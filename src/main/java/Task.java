@@ -8,11 +8,11 @@ public abstract class Task {
         this.isComplete = false;
     }
 
-    public void markDone() {
+    public void setDone() {
         this.isComplete = true;
     }
 
-    public void markToDo() {
+    public void setToDo() {
         this.isComplete = false;
     }
 
