@@ -1,5 +1,11 @@
 // My little helper, Babby
 import java.util.*;
+import java.util.Scanner;
+
+// Import for files
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Babby {
     // List to store user input
@@ -35,6 +41,7 @@ public class Babby {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Make scanner
+        File tasks = initiateTaskFile();
 
         String logo = " ______        _     _           _ \n(____  \\      | |   | |         | |\n ____)  )_____| |__ | |__  _   _| |\n|  __  ((____ |  _ \\|  _ \\| | | |_|\n| |__)  ) ___ | |_) ) |_) ) |_| |_ \n|______/\\_____|____/|____/ \\__  |_|\n                          (____/   ";
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3\n----------------------------------\n");
@@ -85,6 +92,22 @@ public class Babby {
                     break;
             }
         }
+    }
+
+    // Initiate file to store tasks
+    public static File initiateTaskFile() {
+        File tasks = new File("data/tasks.txt");
+
+        try {
+            System.out.println("Loading task file...");
+            if (tasks.createNewFile()) {
+                System.out.println("New task file created");
+            }
+        } catch (IOException e) {
+            System.out.println("Error opening/creating tasks file: " + e.getMessage());
+        }
+
+        return tasks;
     }
 
     public static void todo(String input) {
