@@ -6,7 +6,6 @@ public class Babby {
     private static final ArrayList<Task> taskList = new ArrayList<>();
 
     // Command enums
-
     private enum Command {
         TODO("todo"),
         DEADLINE("deadline"),
@@ -36,8 +35,12 @@ public class Babby {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Make scanner
 
-        String logo = " ______        _     _           _ \n(____  \\      | |   | |         | |\n ____)  )_____| |__ | |__  _   _| |\n|  __  ((____ |  _ \\|  _ \\| | | |_|\n| |__)  ) ___ | |_) ) |_) ) |_| |_ \n|______/\\_____|____/|____/ \\__  |_|\n                          (____/   ";
-        System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3\n----------------------------------\n");
+        String logo = " ______        _     _           _ \n(____  \\      | |   | |         | |" +
+                "\n ____)  )_____| |__ | |__  _   _| |\n|  __  ((____ |  _ \\|  _ \\| | | |_|" +
+                "\n| |__)  ) ___ | |_) ) |_) ) |_| |_ \n|______/\\_____|____/|____/ \\__  |_|" +
+                "\n                          (____/   ";
+        System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3" +
+                "\n----------------------------------\n");
         System.out.println("What can I do for you?");
         System.out.println("\ttodo {task} -> Adds a todo task");
         System.out.println("\tdeadline {task} /by {deadline} -> Adds a deadline task");
@@ -55,34 +58,18 @@ public class Babby {
 
             // Command switch
             switch (Command.parse(input.split(" ")[0])) {
-                case TODO:
-                    todo(input);
-                    break;
-                case DEADLINE:
-                    deadline(input);
-                    break;
-                case EVENT:
-                    event(input);
-                    break;
-                case LIST:
-                    list();
-                    break;
-                case MARK:
-                    mark(input);
-                    break;
-                case UNMARK:
-                    unmark(input);
-                    break;
-                case DELETE:
-                    delete(input);
-                    break;
-                case BYE:
+                case TODO -> todo(input);
+                case DEADLINE -> deadline(input);
+                case EVENT -> event(input);
+                case LIST -> list();
+                case MARK -> mark(input);
+                case UNMARK -> unmark(input);
+                case DELETE -> delete(input);
+                case BYE -> {
                     System.out.println("\tByebyee! See you again soon!");
                     return;
-                case UNKNOWN:
-                default:
-                    System.out.println("\tI'm sorry, I didn't quite get that :<\n\tCould you try again?");
-                    break;
+                }
+                default -> System.out.println("\tI'm sorry, I didn't quite get that :<\n\tCould you try again?");
             }
         }
     }
@@ -124,7 +111,7 @@ public class Babby {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
-        task.markDone(); // Mark the task as done
+        task.setDone(); // Mark the task as done
         System.out.println("\tGood job! You completed this task:\n\t\t" + task);
     }
 
@@ -132,7 +119,7 @@ public class Babby {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
-        task.markToDo(); // Mark the task as not done
+        task.setToDo(); // Mark the task as not done
         System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
     }
 
