@@ -5,6 +5,12 @@ public class Deadline extends Task {
         this.by = by;
     }
 
+    // Create a deadline and specify the completion status
+    public Deadline(String title, String by, Boolean isComplete) {
+        super(title, isComplete);
+        this.by = by;
+    }
+
     @Override
     public String toString() {
         return "[D] " + super.toString() + " (By: " + this.by + ")";

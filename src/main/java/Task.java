@@ -8,6 +8,12 @@ public abstract class Task {
         this.isComplete = false;
     }
 
+    // Create a task and specify the completion status
+    public Task(String title, Boolean isComplete) {
+        this.title = title;
+        this.isComplete = isComplete;
+    }
+
     public void markDone() {
         this.isComplete = true;
     }

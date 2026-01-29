@@ -7,6 +7,13 @@ public class Event extends Task {
         this.to = to;
     }
 
+    // Create an event and specify the completion status
+    public Event(String title, String from, String to, Boolean isComplete) {
+        super(title, isComplete);
+        this.from = from;
+        this.to = to;
+    }
+
     @Override
     public String toString() {
         return "[E] " + super.toString() + " (From: " + this.from + " To: " + this.to + ")";
