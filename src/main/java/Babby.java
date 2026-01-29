@@ -125,8 +125,7 @@ public class Babby {
         Scanner s = new Scanner(tasks);
         while (s.hasNextLine()) {
             String nextLine = s.nextLine();
-//            System.out.println("Loading task: " + nextLine);
-            String[] taskLine = nextLine.split("\\ \\| ");
+            String[] taskLine = nextLine.split(" \\| ");
             String taskType = taskLine[0];
             String taskTitle = taskLine[2];
             Boolean isComplete = taskLine[1].equals("1");
