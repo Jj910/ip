@@ -127,7 +127,7 @@ public class Babby {
     /**
      * Saves all tasks.
      **/
-    public static void saveTasks(File tasks) {
+    public static void saveTasks() {
         try {
             FileWriter fw = new FileWriter(FILEPATH);
             System.out.println(1);
@@ -175,7 +175,7 @@ public class Babby {
         String[] inputList = input.split("todo ");
         ToDo task = new ToDo(inputList[1]);
         taskList.add(task);
-        saveTasks(taskFile);
+        saveTasks();
         System.out.println("\tOkay, I added this task: " + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
@@ -184,7 +184,7 @@ public class Babby {
         String[] inputList = input.replaceFirst("deadline ", "").split(" /by ");
         Deadline task = new Deadline(inputList[0], inputList[1]);
         taskList.add(task);
-        saveTasks(taskFile);
+        saveTasks();
         System.out.println("\tOkay, I added this task: " + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
@@ -193,7 +193,7 @@ public class Babby {
         String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
         Event task = new Event(inputList[0], inputList[1], inputList[2]);
         taskList.add(task);
-        saveTasks(taskFile);
+        saveTasks();
         System.out.println("\tOkay, I added this task: " + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
@@ -212,7 +212,7 @@ public class Babby {
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
         task.markDone(); // Mark the task as done
-        saveTasks(taskFile);
+        saveTasks();
         System.out.println("\tGood job! You completed this task:\n\t\t" + task);
     }
 
@@ -221,7 +221,7 @@ public class Babby {
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
         task.markToDo(); // Mark the task as not done
-        saveTasks(taskFile);
+        saveTasks();
         System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
     }
 
@@ -229,7 +229,7 @@ public class Babby {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.remove(index);
-        saveTasks(taskFile);
+        saveTasks();
         System.out.println("\tOkies, I deleted this task:" + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
