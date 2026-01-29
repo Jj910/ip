@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Babby {
     // List to store user input
-    private static final ArrayList<Task> taskList = new ArrayList<>();
+    private static ArrayList<Task> taskList = new ArrayList<>();
 
     // Command enums
 
