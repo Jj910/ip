@@ -29,6 +29,14 @@ public abstract class Task {
     public String getTitle() {
         return this.title;
     }
+
+    /**
+     * Encodes the task for it to be saved into the tasks file.
+     *
+     * @return Encoded string of the task.
+     */
+    public abstract String toEncodedString();
+
     @Override
     public String toString() {
         String complete = this.isComplete ? "✔" : " ";
