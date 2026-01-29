@@ -7,6 +7,11 @@ public class ToDo extends Task {
     }
 
     @Override
+    public String toEncodedString() {
+        return "T | " + (super.getIsComplete() ? "1" : "0") + " | " + super.getTitle();
+    }
+
+    @Override
     public String toString() {
         return "[T] " + super.toString();
     }

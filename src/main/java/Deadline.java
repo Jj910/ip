@@ -12,6 +12,11 @@ public class Deadline extends Task {
     }
 
     @Override
+    public String toEncodedString() {
+        return "D | " + (super.getIsComplete() ? "1" : "0") + " | " + super.getTitle() + " | " + this.by;
+    }
+
+    @Override
     public String toString() {
         return "[D] " + super.toString() + " (By: " + this.by + ")";
     }

@@ -15,6 +15,12 @@ public class Event extends Task {
     }
 
     @Override
+    public String toEncodedString() {
+        return "E | " + (super.getIsComplete() ? "1" : "0") + " | " + super.getTitle() + " | "
+                + this.from + " | " + this.to;
+    }
+
+    @Override
     public String toString() {
         return "[E] " + super.toString() + " (From: " + this.from + " To: " + this.to + ")";
     }
