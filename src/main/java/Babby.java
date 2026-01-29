@@ -130,11 +130,15 @@ public class Babby {
             String taskTitle = taskLine[2];
             Boolean isComplete = taskLine[1].equals("1");
             // Parse for each type of task then add to the task list
-            switch (taskType) {
-                case "T" ->  taskList.add(new ToDo(taskTitle, isComplete)); // To Do
-                case "D" ->  taskList.add(new Deadline(taskTitle, taskLine[3], isComplete)); // Deadline
-                case "E" ->  taskList.add(new Event(taskTitle, taskLine[3], taskLine[4], isComplete)); // Event
-                default -> System.out.println("I can't read this task :< I'll skip it");
+            try {
+                switch (taskType) {
+                    case "T" ->  taskList.add(new ToDo(taskTitle, isComplete)); // To Do
+                    case "D" ->  taskList.add(new Deadline(taskTitle, taskLine[3], isComplete)); // Deadline
+                    case "E" ->  taskList.add(new Event(taskTitle, taskLine[3], taskLine[4], isComplete)); // Event
+                    default -> System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                }
+            } catch (Exception e) {
+                System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
             }
         }
         return taskList;
