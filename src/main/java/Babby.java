@@ -12,6 +12,8 @@ import java.io.IOException;
 public class Babby {
     // List to store user input
     private static ArrayList<Task> taskList = new ArrayList<>();
+    private static File taskFile;
+    private static final String FILEPATH = "data/tasks.txt";
 
     // Command enums
     private enum Command {
@@ -42,11 +44,11 @@ public class Babby {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Make scanner
-        File tasks = initiateTaskFile();
+        taskFile = initiateTaskFile();
 
         try {
             System.out.println("Loading tasks...");
-            taskList = parseTasks(tasks);
+            taskList = parseTasks(taskFile);
         } catch (FileNotFoundException e) {
             System.out.println("Error loading tasks: " + e.getMessage());
         }
@@ -108,7 +110,7 @@ public class Babby {
      * @return File object representing the tasks file.
      */
     public static File initiateTaskFile() {
-        File tasks = new File("data/tasks.txt");
+        File tasks = new File(FILEPATH);
 
         try {
             System.out.println("Loading task file...");
@@ -120,6 +122,23 @@ public class Babby {
         }
 
         return tasks;
+    }
+
+    /**
+     * Saves all tasks.
+     **/
+    public static void saveTasks(File tasks) {
+        try {
+            FileWriter fw = new FileWriter(FILEPATH);
+            System.out.println(1);
+            for (Task task : taskList) {
+                System.out.println(task);
+                fw.write(task.toEncodedString() + System.lineSeparator());
+            };
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Error saving task: " + e.getMessage());
+        }
     }
 
     /**
@@ -156,6 +175,7 @@ public class Babby {
         String[] inputList = input.split("todo ");
         ToDo task = new ToDo(inputList[1]);
         taskList.add(task);
+        saveTasks(taskFile);
         System.out.println("\tOkay, I added this task: " + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
@@ -164,6 +184,7 @@ public class Babby {
         String[] inputList = input.replaceFirst("deadline ", "").split(" /by ");
         Deadline task = new Deadline(inputList[0], inputList[1]);
         taskList.add(task);
+        saveTasks(taskFile);
         System.out.println("\tOkay, I added this task: " + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
@@ -172,6 +193,7 @@ public class Babby {
         String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
         Event task = new Event(inputList[0], inputList[1], inputList[2]);
         taskList.add(task);
+        saveTasks(taskFile);
         System.out.println("\tOkay, I added this task: " + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
@@ -190,6 +212,7 @@ public class Babby {
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
         task.markDone(); // Mark the task as done
+        saveTasks(taskFile);
         System.out.println("\tGood job! You completed this task:\n\t\t" + task);
     }
 
@@ -198,6 +221,7 @@ public class Babby {
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
         task.markToDo(); // Mark the task as not done
+        saveTasks(taskFile);
         System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
     }
 
@@ -205,6 +229,7 @@ public class Babby {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.remove(index);
+        saveTasks(taskFile);
         System.out.println("\tOkies, I deleted this task:" + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
