@@ -22,6 +22,13 @@ public abstract class Task {
         this.isComplete = false;
     }
 
+    public Boolean getIsComplete() {
+        return this.isComplete;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
     @Override
     public String toString() {
         String complete = this.isComplete ? "✔" : " ";
