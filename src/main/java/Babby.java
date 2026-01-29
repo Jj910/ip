@@ -14,7 +14,6 @@ public class Babby {
     private static ArrayList<Task> taskList = new ArrayList<>();
 
     // Command enums
-
     private enum Command {
         TODO("todo"),
         DEADLINE("deadline"),
@@ -103,14 +102,18 @@ public class Babby {
         }
     }
 
-    // Initiate file to store tasks
+    /**
+     * Initiates the tasks file. If the file does not exist, it creates a new one.
+     *
+     * @return File object representing the tasks file.
+     */
     public static File initiateTaskFile() {
         File tasks = new File("data/tasks.txt");
 
         try {
             System.out.println("Loading task file...");
             if (tasks.createNewFile()) {
-                System.out.println("New task file created");
+                System.out.println("File not found! New task file created");
             }
         } catch (IOException e) {
             System.out.println("Error opening/creating tasks file: " + e.getMessage());
@@ -119,8 +122,13 @@ public class Babby {
         return tasks;
     }
 
-    // Reads tasks from file and returns a populated task list
-    private static ArrayList<Task> parseTasks(File tasks) throws FileNotFoundException {
+    /**
+     * Returns a populated ArrayList with all tasks from the given file.
+     *
+     * @param tasks X coordinate of position.
+     * @throws FileNotFoundException If given file is not found.
+     */
+     private static ArrayList<Task> parseTasks(File tasks) throws FileNotFoundException {
         ArrayList<Task> taskList = new ArrayList<>();
         Scanner s = new Scanner(tasks);
         while (s.hasNextLine()) {
