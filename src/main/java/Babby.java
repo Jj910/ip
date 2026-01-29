@@ -43,6 +43,13 @@ public class Babby {
         Scanner scanner = new Scanner(System.in); // Make scanner
         File tasks = initiateTaskFile();
 
+        try {
+            System.out.println("Loading tasks...");
+            taskList = parseTasks(tasks);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+        }
+
         String logo = " ______        _     _           _ \n(____  \\      | |   | |         | |\n ____)  )_____| |__ | |__  _   _| |\n|  __  ((____ |  _ \\|  _ \\| | | |_|\n| |__)  ) ___ | |_) ) |_) ) |_| |_ \n|______/\\_____|____/|____/ \\__  |_|\n                          (____/   ";
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3\n----------------------------------\n");
         System.out.println("What can I do for you?");
@@ -108,6 +115,28 @@ public class Babby {
         }
 
         return tasks;
+    }
+
+    // Reads tasks from file and returns a populated task list
+    private static ArrayList<Task> parseTasks(File tasks) throws FileNotFoundException {
+        ArrayList<Task> taskList = new ArrayList<>();
+        Scanner s = new Scanner(tasks);
+        while (s.hasNextLine()) {
+            String nextLine = s.nextLine();
+//            System.out.println("Loading task: " + nextLine);
+            String[] taskLine = nextLine.split("\\ \\| ");
+            String taskType = taskLine[0];
+            String taskTitle = taskLine[2];
+            Boolean isComplete = taskLine[1].equals("1");
+            // Parse for each type of task then add to the task list
+            switch (taskType) {
+                case "T" ->  taskList.add(new ToDo(taskTitle, isComplete)); // To Do
+                case "D" ->  taskList.add(new Deadline(taskTitle, taskLine[3], isComplete)); // Deadline
+                case "E" ->  taskList.add(new Event(taskTitle, taskLine[3], taskLine[4], isComplete)); // Event
+                default -> System.out.println("I can't read this task :< I'll skip it");
+            }
+        }
+        return taskList;
     }
 
     public static void todo(String input) {
