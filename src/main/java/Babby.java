@@ -261,6 +261,23 @@ public class Babby {
      */
     public void mark(String input) {
         String[] inputList = input.split(" ");
+        // Validate that a task number is provided
+        if (inputList.length < 2) {
+            System.out.println("\tOopsie! You didn't provide a task number to mark! :<");
+            return;
+        }
+        // Validate that the task number is an integer
+        if (!inputList[1].matches("\\d+")) {
+            System.out.println("\tOopsie! The task number must be a positive integer! :<");
+            return;
+        }
+        // Validate that the task number is within the range of the task list
+        int taskNumber = Integer.parseInt(inputList[1]);
+        if (taskNumber < 1 || taskNumber > this.taskList.size()) {
+            System.out.println("\tOopsie! The task number " + taskNumber + " does not exist! :<");
+            return;
+        }
+
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = this.taskList.get(index);
         task.setDone(); // Mark the task as done
@@ -275,6 +292,23 @@ public class Babby {
      */
     public void unmark(String input) {
         String[] inputList = input.split(" ");
+        // Validate that a task number is provided
+        if (inputList.length < 2) {
+            System.out.println("\tOopsie! You didn't provide a task number to unmark! :<");
+            return;
+        }
+        // Validate that the task number is an integer
+        if (!inputList[1].matches("\\d+")) {
+            System.out.println("\tOopsie! The task number must be a positive integer! :<");
+            return;
+        }
+        // Validate that the task number is within the range of the task list
+        int taskNumber = Integer.parseInt(inputList[1]);
+        if (taskNumber < 1 || taskNumber > this.taskList.size()) {
+            System.out.println("\tOopsie! The task number " + taskNumber + " does not exist! :<");
+            return;
+        }
+
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = this.taskList.get(index);
         task.setToDo(); // Mark the task as not done
@@ -289,6 +323,23 @@ public class Babby {
      */
     public void delete(String input) {
         String[] inputList = input.split(" ");
+        // Validate that a task number is provided
+        if (inputList.length < 2) {
+            System.out.println("\tOopsie! You didn't provide a task number to unmark! :<");
+            return;
+        }
+        // Validate that the task number is an integer
+        if (!inputList[1].matches("\\d+")) {
+            System.out.println("\tOopsie! The task number must be a positive integer! :<");
+            return;
+        }
+        // Validate that the task number is within the range of the task list
+        int taskNumber = Integer.parseInt(inputList[1]);
+        if (taskNumber < 1 || taskNumber > this.taskList.size()) {
+            System.out.println("\tOopsie! The task number " + taskNumber + " does not exist! :<");
+            return;
+        }
+
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = this.taskList.remove(index);
         saveTasks();
