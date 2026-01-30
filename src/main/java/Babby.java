@@ -1,5 +1,7 @@
 // My little helper, Babby
-import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,6 +16,9 @@ public class Babby {
     private static ArrayList<Task> taskList = new ArrayList<>();
     private static final String FILEPATH = "data/tasks.txt";
 
+    private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Make scanner
         File taskFile = initiateTaskFile();
@@ -27,13 +32,13 @@ public class Babby {
         String logo = """
                  ______        _     _           _\s
                 (____  \\      | |   | |         | |\
-                
+
                  ____)  )_____| |__ | |__  _   _| |
                 |  __  ((____ |  _ \\|  _ \\| | | |_|\
-                
+
                 | |__)  ) ___ | |_) ) |_) ) |_| |_\s
                 |______/\\_____|____/|____/ \\__  |_|\
-                
+
                                           (____/  \s""";
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3" +
                 "\n----------------------------------\n");
@@ -150,8 +155,15 @@ public class Babby {
             try {
                 switch (taskType) {
                     case "T" ->  taskList.add(new ToDo(taskTitle, isComplete)); // To Do
-                    case "D" ->  taskList.add(new Deadline(taskTitle, taskLine[3], isComplete)); // Deadline
-                    case "E" ->  taskList.add(new Event(taskTitle, taskLine[3], taskLine[4], isComplete)); // Event
+                    case "D" ->  {
+                        LocalDateTime by = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
+                        taskList.add(new Deadline(taskTitle, by, isComplete)); // Deadline
+                    }
+                    case "E" ->  {
+                        LocalDateTime from = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
+                        LocalDateTime to = LocalDateTime.parse(taskLine[4], FILE_FORMATTER);
+                        taskList.add(new Event(taskTitle, from, to, isComplete)); // Event
+                    }
                     default -> System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
                 }
             } catch (Exception e) {
@@ -170,6 +182,10 @@ public class Babby {
      */
     public static void todo(String input) {
         String[] inputList = input.split("todo ");
+        if (inputList.length < 2 || inputList[1].isBlank()) {
+            System.out.println("\tOopsie! The description of a task cannot be empty :<");
+            return;
+        }
         ToDo task = new ToDo(inputList[1]);
         taskList.add(task);
         saveTasks();
@@ -185,11 +201,20 @@ public class Babby {
      */
     public static void deadline(String input) {
         String[] inputList = input.replaceFirst("deadline ", "").split(" /by ");
-        Deadline task = new Deadline(inputList[0], inputList[1]);
-        taskList.add(task);
-        saveTasks();
-        System.out.println("\tOkay, I added this task: " + task);
-        System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+        if (inputList.length < 2 || inputList[0].isBlank() || inputList[1].isBlank()) {
+            System.out.println("\tOopsie! You didn't follow the command's format! :<\n\tTry something like \"deadline meet friends /by 31/12/2025 2359\"");
+            return;
+        }
+        try {
+            LocalDateTime by = LocalDateTime.parse(inputList[1], INPUT_FORMATTER);
+            Deadline task = new Deadline(inputList[0], by);
+            taskList.add(task);
+            saveTasks();
+            System.out.println("\tOkay, I added this task: " + task);
+            System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+        } catch (DateTimeParseException e) {
+            System.out.println("\tOopsie! The date/time you provided is wrong. Try something like 31/12/2025 2359");
+        }
     }
 
     /**
@@ -200,11 +225,22 @@ public class Babby {
      */
     public static void event(String input) {
         String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
-        Event task = new Event(inputList[0], inputList[1], inputList[2]);
-        taskList.add(task);
-        saveTasks();
-        System.out.println("\tOkay, I added this task: " + task);
-        System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+        if (inputList.length < 3 || inputList[0].isBlank() || inputList[1].isBlank() || inputList[2].isBlank()) {
+            System.out.println("\tOopsie! You didn't follow the command's format! :<" +
+                    "\n\tTry something like \"meet friends /from 01/01/2025 1400 /to 01/01/2025 1600\"");
+            return;
+        }
+        try {
+            LocalDateTime from = LocalDateTime.parse(inputList[1], INPUT_FORMATTER);
+            LocalDateTime to = LocalDateTime.parse(inputList[2], INPUT_FORMATTER);
+            Event task = new Event(inputList[0], from, to);
+            taskList.add(task);
+            saveTasks();
+            System.out.println("\tOkay, I added this task: " + task);
+            System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+        } catch (DateTimeParseException e) {
+            System.out.println("\tOopsie! The date/time you provided is wrong. Please use DD/MM/YYYY HHMM");
+        }
     }
 
     /**

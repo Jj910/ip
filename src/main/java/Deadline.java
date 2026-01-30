@@ -1,9 +1,15 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Represents a Deadline task with a title, completion status, and due date/time.
  * Inherits from the Task class.
  */
 public class Deadline extends Task {
-    private final String by;
+    private final LocalDateTime by;
+
+    private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 
     /**
      * Creates a Deadline task.
@@ -12,7 +18,7 @@ public class Deadline extends Task {
      * @param title Title of the Deadline task.
      * @param by Deadline of the task.
      */
-    public Deadline(String title, String by) {
+    public Deadline(String title, LocalDateTime by) {
         super(title);
         this.by = by;
     }
@@ -24,7 +30,7 @@ public class Deadline extends Task {
      * @param by Deadline of the task.
      * @param isComplete Completion status of the task. True if the task is complete, false otherwise.
      */
-    public Deadline(String title, String by, Boolean isComplete) {
+    public Deadline(String title, LocalDateTime by, Boolean isComplete) {
         super(title, isComplete);
         this.by = by;
     }
@@ -32,15 +38,15 @@ public class Deadline extends Task {
     /**
      * @inheritDoc
      *
-     * @return Encoded string of the task in the format "D | {1/0} | title | by".
+     * @return Encoded string of the task in the format "D | {1/0} | title | by" where by is saved in ISO format.
      */
     @Override
     public String toEncodedString() {
-        return "D | " + (super.getIsComplete() ? "1" : "0") + " | " + super.getTitle() + " | " + this.by;
+        return "D | " + (super.getIsComplete() ? "1" : "0") + " | " + super.getTitle() + " | " + this.by.format(FILE_FORMATTER);
     }
 
     @Override
     public String toString() {
-        return "[D] " + super.toString() + " (By: " + this.by + ")";
+        return "[D] " + super.toString() + " (By: " + this.by.format(DISPLAY_FORMATTER) + ")";
     }
 }
