@@ -27,6 +27,16 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
+     * Adds the given task to the task list.
+     *
+     * @param task The task to be added.
+     * @return True if the task was successfully added, false otherwise.
+     */
+    public boolean add(Task task) {
+        return super.add(task);
+    }
+
+    /**
      * Deletes the given task from the task list.
      *
      * @param index The index of the task to be removed (0-based).
