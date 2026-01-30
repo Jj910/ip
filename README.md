@@ -9,3 +9,6 @@ Hello! Welcome to
                           (____/
 ```
 Your little companion friend!
+
+AI Use Acknowledgment:
+This project's test cases were generated with the assistance of GitHub Copilot.
