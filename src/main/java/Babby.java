@@ -110,6 +110,8 @@ public class Babby {
             System.out.println("Loading task file...");
             if (tasks.createNewFile()) {
                 System.out.println("File not found! New task file created");
+            } else {
+                System.out.println("Task file loaded!");
             }
         } catch (IOException e) {
             System.out.println("Error opening/creating tasks file: " + e.getMessage());
