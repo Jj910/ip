@@ -85,9 +85,7 @@ public class Storage {
     public void saveTasks(TaskList taskList) {
         try {
             FileWriter fw = new FileWriter(taskFile);
-            System.out.println(1);
             for (Task task : taskList) {
-                System.out.println(task);
                 fw.write(task.toEncodedString() + System.lineSeparator());
             }
             fw.close();
