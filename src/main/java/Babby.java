@@ -23,6 +23,7 @@ public class Babby {
 
     public void run() {
         Scanner scanner = new Scanner(System.in); // Make scanner for user input
+        Parser parser = new Parser(this);
 
         try {
             this.taskList = storage.parseTasks();
@@ -37,58 +38,14 @@ public class Babby {
             System.out.println("-------------------------------------");
             String input = scanner.nextLine();
 
-            // Command switch
-            switch (Command.parse(input.split(" ")[0])) { // Add new commands to enum Command also
-                case TODO -> todo(input);
-                case DEADLINE -> deadline(input);
-                case EVENT -> event(input);
-                case LIST -> this.taskList.list();
-                case MARK -> mark(input);
-                case UNMARK -> unmark(input);
-                case DELETE -> delete(input);
-                case HELP -> ui.printHelp();
-                case BYE -> {
-                    ui.printGoodbye();
-                    return;
-                }
-                default -> ui.printLine("I'm sorry, I didn't quite get that :<\n\tCould you try again?");
-            }
+            boolean continueLoop = parser.parseAndExecute(input);
+            if (!continueLoop) return;
         }
     }
 
     public static void main(String[] args) {
         new Babby("data/tasks.txt").run();
     }
-
-    // Command enums
-    private enum Command {
-        TODO("todo"),
-        DEADLINE("deadline"),
-        EVENT("event"),
-        LIST("list"),
-        MARK("mark"),
-        UNMARK("unmark"),
-        DELETE("delete"),
-        HELP("help"),
-        BYE("bye"),
-        UNKNOWN("");
-
-        private final String command;
-
-        Command(String command) {
-            this.command = command;
-        }
-
-        public static Command parse(String input) {
-            if (input == null || input.isEmpty()) return UNKNOWN;
-            for (Command command : values()) {
-                if (input.toLowerCase().equals(command.command)) return command;
-            }
-            return UNKNOWN;
-        }
-    }
-
-
 
     /**
      * Adds a To Do task to the task list.
@@ -251,5 +208,22 @@ public class Babby {
         storage.saveTasks(this.taskList);
         ui.printLine("Okies, I deleted this task:" + task);
         ui.printLine("You have " + taskList.size() + " tasks in the list now!");
+    }
+
+    // Methods called by Parser
+    public void list() {
+        this.taskList.list();
+    }
+
+    public void help() {
+        this.ui.printHelp();
+    }
+
+    public void bye() {
+        this.ui.printGoodbye();
+    }
+
+    public void printLine(String message) {
+        this.ui.printLine(message);
     }
 }
