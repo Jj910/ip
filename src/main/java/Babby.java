@@ -214,9 +214,13 @@ public class Babby {
 
     /**
      * Lists all tasks in the task list.
-     * TODO: If there are no tasks, it notifies the user that the task list is empty.
      */
     public static void list() {
+        if (taskList.isEmpty()) {
+            System.out.println("\tYour task list is empty! Add some tasks first :)");
+            return;
+        }
+
         int i = 1;
         System.out.println("\tHere are your tasks:");
         for (Task task : taskList) {
