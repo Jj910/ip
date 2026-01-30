@@ -7,12 +7,15 @@ import java.util.ArrayList;
  */
 public class TaskList extends ArrayList<Task> {
 
+    /**
+     * Creates an empty TaskList.
+     */
     public TaskList() {
         super();
     }
 
     /**
-     * Lists all tasks in the task list.
+     * Print a human-readable listing of tasks to stdout.
      */
     public void list() {
         if (this.isEmpty()) {
@@ -29,7 +32,7 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
-     * Adds the given task to the task list.
+     * Adds the given task to the list.
      *
      * @param task The task to be added.
      * @return True if the task was successfully added, false otherwise.
