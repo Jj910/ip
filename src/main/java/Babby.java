@@ -8,9 +8,9 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 
 public class Babby {
-    private Storage storage;
+    private final Storage storage;
+    private final Ui ui;
     private TaskList taskList;
-    private Ui ui;
 
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 
