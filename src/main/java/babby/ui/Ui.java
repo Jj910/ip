@@ -39,6 +39,7 @@ public class Ui {
         this.printLine("Deadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task");
         this.printLine("Event {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task\n");
         this.printLine("List -> Lists all tasks");
+        this.printLine("Find {text} -> Finds all tasks with your input, you can search for date/time too!");
         this.printLine("Mark {task number} -> Marks the task as done");
         this.printLine("Unmark {task number} -> Marks the task as not done");
         this.printLine("Delete {task number} -> Deletes the task from the list\n");

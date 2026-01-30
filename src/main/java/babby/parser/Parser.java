@@ -38,11 +38,13 @@ public class Parser {
         // Normalize input to non-null to avoid passing null into methods
         String safeInput = (input == null) ? "" : input;
 
+        // Add new commands to the command enums too
         switch (Command.parse(cmdToken)) {
             case TODO -> todo(safeInput);
             case DEADLINE -> deadline(safeInput);
             case EVENT -> event(safeInput);
             case LIST -> babby.list();
+            case FIND -> find(safeInput);
             case MARK -> mark(safeInput);
             case UNMARK -> unmark(safeInput);
             case DELETE -> delete(safeInput);
@@ -175,12 +177,23 @@ public class Parser {
         babby.printLine("You have " + babby.getTaskList().size() + " tasks in the list now!");
     }
 
+    private void find(String input) {
+        String[] parts = input.split(" ", 2);
+        if (parts.length < 2 || parts[1].isBlank()) {
+            babby.printLine("Oopsie! You didn't provide a search query! :<");
+            return;
+        }
+        String query = parts[1].trim();
+        babby.find(query);
+    }
+
     // Command enums (migrated from Babby)
     private enum Command {
         TODO("todo"),
         DEADLINE("deadline"),
         EVENT("event"),
         LIST("list"),
+        FIND("find"),
         MARK("mark"),
         UNMARK("unmark"),
         DELETE("delete"),
@@ -203,3 +216,4 @@ public class Parser {
         }
     }
 }
+

@@ -99,6 +99,13 @@ public class Babby {
     }
 
     /**
+     * Find tasks given the input using the TaskList listing helper.
+     */
+    public void find(String input) {
+        this.taskList.find(input);
+    }
+
+    /**
      * Print the help message (delegates to Ui).
      */
     public void help() {
