@@ -14,16 +14,16 @@ public class Babby {
     private Storage storage;
     private TaskList taskList;
     private Ui ui;
-
-    private static final String FILEPATH = "data/tasks.txt";
+    private final String FILEPATH;
 
     private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 
-    public Babby() {
+    public Babby(String filepath) {
         this.storage = new Storage();
         this.ui = new Ui();
         this.taskList = new TaskList();
+        this.FILEPATH = filepath;
     }
 
     public void run() {
@@ -62,7 +62,7 @@ public class Babby {
                 case TODO -> todo(input);
                 case DEADLINE -> deadline(input);
                 case EVENT -> event(input);
-                case LIST -> list();
+                case LIST -> this.taskList.list();
                 case MARK -> mark(input);
                 case UNMARK -> unmark(input);
                 case DELETE -> delete(input);
@@ -136,7 +136,7 @@ public class Babby {
         try {
             FileWriter fw = new FileWriter(FILEPATH);
             System.out.println(1);
-            for (Task task : taskList) {
+            for (Task task : this.taskList) {
                 System.out.println(task);
                 fw.write(task.toEncodedString() + System.lineSeparator());
             }
@@ -147,7 +147,7 @@ public class Babby {
     }
 
     /**
-     * Returns a populated ArrayList with all tasks from the given file.
+     * Returns a populated TaskList with all tasks from the given file.
      *
      * @param tasks File object for task file.
      * @throws FileNotFoundException If given file is not found.
@@ -198,10 +198,10 @@ public class Babby {
             return;
         }
         ToDo task = new ToDo(inputList[1]);
-        taskList.add(task);
+        this.taskList.add(task);
         saveTasks();
         System.out.println("\tOkay, I added this task: " + task);
-        System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+        System.out.println("\tYou have " + this.taskList.size() + " tasks in the list now!");
     }
 
     /**
@@ -219,10 +219,10 @@ public class Babby {
         try {
             LocalDateTime by = LocalDateTime.parse(inputList[1], INPUT_FORMATTER);
             Deadline task = new Deadline(inputList[0], by);
-            taskList.add(task);
+            this.taskList.add(task);
             saveTasks();
             System.out.println("\tOkay, I added this task: " + task);
-            System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+            System.out.println("\tYou have " + this.taskList.size() + " tasks in the list now!");
         } catch (DateTimeParseException e) {
             System.out.println("\tOopsie! The date/time you provided is wrong. Try something like 31/12/2025 2359");
         }
@@ -245,29 +245,12 @@ public class Babby {
             LocalDateTime from = LocalDateTime.parse(inputList[1], INPUT_FORMATTER);
             LocalDateTime to = LocalDateTime.parse(inputList[2], INPUT_FORMATTER);
             Event task = new Event(inputList[0], from, to);
-            taskList.add(task);
+            this.taskList.add(task);
             saveTasks();
             System.out.println("\tOkay, I added this task: " + task);
-            System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+            System.out.println("\tYou have " + this.taskList.size() + " tasks in the list now!");
         } catch (DateTimeParseException e) {
             System.out.println("\tOopsie! The date/time you provided is wrong. Please use DD/MM/YYYY HHMM");
-        }
-    }
-
-    /**
-     * Lists all tasks in the task list.
-     */
-    public void list() {
-        if (taskList.isEmpty()) {
-            System.out.println("\tYour task list is empty! Add some tasks first :)");
-            return;
-        }
-
-        int i = 1;
-        System.out.println("\tHere are your tasks:");
-        for (Task task : taskList) {
-            System.out.println("\t\t" + i + ") " + task);
-            i++;
         }
     }
 
@@ -279,7 +262,7 @@ public class Babby {
     public void mark(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
-        Task task = taskList.get(index);
+        Task task = this.taskList.get(index);
         task.setDone(); // Mark the task as done
         saveTasks();
         System.out.println("\tGood job! You completed this task:\n\t\t" + task);
@@ -293,7 +276,7 @@ public class Babby {
     public void unmark(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
-        Task task = taskList.get(index);
+        Task task = this.taskList.get(index);
         task.setToDo(); // Mark the task as not done
         saveTasks();
         System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
@@ -307,7 +290,7 @@ public class Babby {
     public void delete(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
-        Task task = taskList.remove(index);
+        Task task = this.taskList.remove(index);
         saveTasks();
         System.out.println("\tOkies, I deleted this task:" + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
