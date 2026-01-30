@@ -1,4 +1,5 @@
 // My little helper, Babby
+
 import java.util.Scanner;
 
 import java.io.FileNotFoundException;
@@ -10,8 +11,13 @@ public class Babby {
 
 
     // Expose storage and tasklist for Parser
-    public Storage getStorage() { return this.storage; }
-    public TaskList getTaskList() { return this.taskList; }
+    public Storage getStorage() {
+        return this.storage;
+    }
+
+    public TaskList getTaskList() {
+        return this.taskList;
+    }
 
 
     public Babby(String filepath) {
