@@ -8,7 +8,7 @@ public class Ui {
     public void printLine(String message) {
         System.out.println("\t" + message);
     }
-    
+
     public void printWelcomeMessage() {
         String logo = """
                  ______        _     _           _\s
