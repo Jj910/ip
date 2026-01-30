@@ -8,6 +8,12 @@ public abstract class Task {
         this.isComplete = false;
     }
 
+    // Create a task and specify the completion status
+    public Task(String title, Boolean isComplete) {
+        this.title = title;
+        this.isComplete = isComplete;
+    }
+
     public void setDone() {
         this.isComplete = true;
     }
@@ -15,6 +21,21 @@ public abstract class Task {
     public void setToDo() {
         this.isComplete = false;
     }
+
+    public Boolean getIsComplete() {
+        return this.isComplete;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    /**
+     * Encodes the task for it to be saved into the tasks file.
+     *
+     * @return Encoded string of the task.
+     */
+    public abstract String toEncodedString();
 
     @Override
     public String toString() {
