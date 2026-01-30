@@ -103,7 +103,7 @@ public class Babby {
      *
      * @return File object representing the tasks file.
      */
-    public static File initiateTaskFile() {
+    private static File initiateTaskFile() {
         File tasks = new File(FILEPATH);
 
         try {
@@ -121,7 +121,7 @@ public class Babby {
     /**
      * Saves all tasks.
      **/
-    public static void saveTasks() {
+    private static void saveTasks() {
         try {
             FileWriter fw = new FileWriter(FILEPATH);
             System.out.println(1);
@@ -138,7 +138,7 @@ public class Babby {
     /**
      * Returns a populated ArrayList with all tasks from the given file.
      *
-     * @param tasks X coordinate of position.
+     * @param tasks File object for task file.
      * @throws FileNotFoundException If given file is not found.
      */
      private static ArrayList<Task> parseTasks(File tasks) throws FileNotFoundException {
@@ -165,6 +165,12 @@ public class Babby {
         return taskList;
     }
 
+    /**
+     * Adds a To Do task to the task list.
+     * A To Do task is a task without any date/time attached to it.
+     *
+     * @param input User input string in the format "todo {task}".
+     */
     public static void todo(String input) {
         String[] inputList = input.split("todo ");
         ToDo task = new ToDo(inputList[1]);
@@ -174,6 +180,12 @@ public class Babby {
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
 
+    /**
+     * Adds a Deadline task to the task list.
+     * A Deadline task is a task that needs to be done by a specific date/time.
+     *
+     * @param input User input string in the format "deadline {task} /by {deadline}".
+     */
     public static void deadline(String input) {
         String[] inputList = input.replaceFirst("deadline ", "").split(" /by ");
         Deadline task = new Deadline(inputList[0], inputList[1]);
@@ -183,6 +195,12 @@ public class Babby {
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
 
+    /**
+     * Adds an Event task to the task list.
+     * An Event task is a task that starts at a specific time and ends at a specific time.
+     *
+     * @param input User input string in the format "event {task} /from {start time} /to {end time}".
+     */
     public static void event(String input) {
         String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
         Event task = new Event(inputList[0], inputList[1], inputList[2]);
@@ -192,6 +210,10 @@ public class Babby {
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
     }
 
+    /**
+     * Lists all tasks in the task list.
+     * TODO: If there are no tasks, it notifies the user that the task list is empty.
+     */
     public static void list() {
         int i = 1;
         System.out.println("\tHere are your tasks:");
@@ -201,6 +223,11 @@ public class Babby {
         }
     }
 
+    /**
+     * Marks the given task as done.
+     *
+     * @param input User input string in the format "mark {task number}".
+     */
     public static void mark(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
@@ -210,6 +237,11 @@ public class Babby {
         System.out.println("\tGood job! You completed this task:\n\t\t" + task);
     }
 
+    /**
+     * Marks the given task as incomplete.
+     *
+     * @param input User input string in the format "unmark {task number}".
+     */
     public static void unmark(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
@@ -219,6 +251,11 @@ public class Babby {
         System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
     }
 
+    /**
+     * Deletes the given task from the task list.
+     *
+     * @param input User input string in the format "delete {task number}".
+     */
     public static void delete(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
