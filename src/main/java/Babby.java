@@ -3,7 +3,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import java.io.File;
@@ -12,19 +11,27 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 
 public class Babby {
-    // List to store user input
-    private static ArrayList<Task> taskList = new ArrayList<>();
+    private Storage storage;
+    private TaskList taskList;
+    private Ui ui;
+
     private static final String FILEPATH = "data/tasks.txt";
 
     private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 
-    public static void main(String[] args) {
+    public Babby() {
+        this.storage = new Storage();
+        this.ui = new Ui();
+        this.taskList = new TaskList();
+    }
+
+    public void run() {
         Scanner scanner = new Scanner(System.in); // Make scanner
         File taskFile = initiateTaskFile();
 
         try {
-            taskList = parseTasks(taskFile);
+            this.taskList = parseTasks(taskFile);
         } catch (FileNotFoundException e) {
             System.out.println("Error loading tasks: " + e.getMessage());
         }
@@ -69,6 +76,10 @@ public class Babby {
         }
     }
 
+    public static void main(String[] args) {
+        new Babby().run();
+    }
+
     // Command enums
     private enum Command {
         TODO("todo"),
@@ -102,7 +113,7 @@ public class Babby {
      *
      * @return File object representing the tasks file.
      */
-    private static File initiateTaskFile() {
+    private File initiateTaskFile() {
         File tasks = new File(FILEPATH);
 
         try {
@@ -121,7 +132,7 @@ public class Babby {
     /**
      * Saves all tasks.
      **/
-    private static void saveTasks() {
+    private void saveTasks() {
         try {
             FileWriter fw = new FileWriter(FILEPATH);
             System.out.println(1);
@@ -141,9 +152,9 @@ public class Babby {
      * @param tasks File object for task file.
      * @throws FileNotFoundException If given file is not found.
      */
-     private static ArrayList<Task> parseTasks(File tasks) throws FileNotFoundException {
+     private TaskList parseTasks(File tasks) throws FileNotFoundException {
         System.out.println("Hold on... I'm reading the tasks...");
-        ArrayList<Task> taskList = new ArrayList<>();
+         TaskList taskList = new TaskList();
         Scanner s = new Scanner(tasks);
         while (s.hasNextLine()) {
             String nextLine = s.nextLine();
@@ -180,7 +191,7 @@ public class Babby {
      *
      * @param input User input string in the format "todo {task}".
      */
-    public static void todo(String input) {
+    public void todo(String input) {
         String[] inputList = input.split("todo ");
         if (inputList.length < 2 || inputList[1].isBlank()) {
             System.out.println("\tOopsie! The description of a task cannot be empty :<");
@@ -199,7 +210,7 @@ public class Babby {
      *
      * @param input User input string in the format "deadline {task} /by {deadline}".
      */
-    public static void deadline(String input) {
+    public void deadline(String input) {
         String[] inputList = input.replaceFirst("deadline ", "").split(" /by ");
         if (inputList.length < 2 || inputList[0].isBlank() || inputList[1].isBlank()) {
             System.out.println("\tOopsie! You didn't follow the command's format! :<\n\tTry something like \"deadline meet friends /by 31/12/2025 2359\"");
@@ -223,7 +234,7 @@ public class Babby {
      *
      * @param input User input string in the format "event {task} /from {start time} /to {end time}".
      */
-    public static void event(String input) {
+    public void event(String input) {
         String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
         if (inputList.length < 3 || inputList[0].isBlank() || inputList[1].isBlank() || inputList[2].isBlank()) {
             System.out.println("\tOopsie! You didn't follow the command's format! :<" +
@@ -246,7 +257,7 @@ public class Babby {
     /**
      * Lists all tasks in the task list.
      */
-    public static void list() {
+    public void list() {
         if (taskList.isEmpty()) {
             System.out.println("\tYour task list is empty! Add some tasks first :)");
             return;
@@ -265,7 +276,7 @@ public class Babby {
      *
      * @param input User input string in the format "mark {task number}".
      */
-    public static void mark(String input) {
+    public void mark(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
@@ -279,7 +290,7 @@ public class Babby {
      *
      * @param input User input string in the format "unmark {task number}".
      */
-    public static void unmark(String input) {
+    public void unmark(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.get(index);
@@ -293,7 +304,7 @@ public class Babby {
      *
      * @param input User input string in the format "delete {task number}".
      */
-    public static void delete(String input) {
+    public void delete(String input) {
         String[] inputList = input.split(" ");
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = taskList.remove(index);
