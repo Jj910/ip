@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Import for files
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,33 +13,6 @@ public class Babby {
     // List to store user input
     private static ArrayList<Task> taskList = new ArrayList<>();
     private static final String FILEPATH = "data/tasks.txt";
-
-    // Command enums
-    private enum Command {
-        TODO("todo"),
-        DEADLINE("deadline"),
-        EVENT("event"),
-        LIST("list"),
-        MARK("mark"),
-        UNMARK("unmark"),
-        DELETE("delete"),
-        BYE("bye"),
-        UNKNOWN("");
-
-        private final String command;
-
-        Command(String command) {
-            this.command = command;
-        }
-
-        public static Command parse(String input) {
-            if (input == null || input.isEmpty()) return UNKNOWN;
-            for (Command command : values()) {
-                if (input.equals(command.command)) return command;
-            }
-            return UNKNOWN;
-        }
-    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Make scanner
@@ -66,14 +38,7 @@ public class Babby {
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3" +
                 "\n----------------------------------\n");
         System.out.println("What can I do for you?");
-        System.out.println("\tToDo {task} -> Adds a todo task");
-        System.out.println("\tDeadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task");
-        System.out.println("\tEvent {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task\n");
-        System.out.println("\tList -> Lists all tasks");
-        System.out.println("\tMark {task number} -> Marks the task as done");
-        System.out.println("\tUnmark {task number} -> Marks the task as not done");
-        System.out.println("\tDelete {task number} -> Deletes the task from the list\n");
-        System.out.println("\tBye -> Exits the program :<\n");
+        help();
 
         // Main command loop
         while (true) {
@@ -81,7 +46,7 @@ public class Babby {
             String input = scanner.nextLine();
 
             // Command switch
-            switch (Command.parse(input.split(" ")[0])) {
+            switch (Command.parse(input.split(" ")[0])) { // Add new commands to enum Command also
                 case TODO -> todo(input);
                 case DEADLINE -> deadline(input);
                 case EVENT -> event(input);
@@ -89,12 +54,41 @@ public class Babby {
                 case MARK -> mark(input);
                 case UNMARK -> unmark(input);
                 case DELETE -> delete(input);
+                case HELP -> help();
                 case BYE -> {
                     System.out.println("\tByebyee! See you again soon!");
                     return;
                 }
                 default -> System.out.println("\tI'm sorry, I didn't quite get that :<\n\tCould you try again?");
             }
+        }
+    }
+
+    // Command enums
+    private enum Command {
+        TODO("todo"),
+        DEADLINE("deadline"),
+        EVENT("event"),
+        LIST("list"),
+        MARK("mark"),
+        UNMARK("unmark"),
+        DELETE("delete"),
+        HELP("help"),
+        BYE("bye"),
+        UNKNOWN("");
+
+        private final String command;
+
+        Command(String command) {
+            this.command = command;
+        }
+
+        public static Command parse(String input) {
+            if (input == null || input.isEmpty()) return UNKNOWN;
+            for (Command command : values()) {
+                if (input.toLowerCase().equals(command.command)) return command;
+            }
+            return UNKNOWN;
         }
     }
 
@@ -270,5 +264,20 @@ public class Babby {
         saveTasks();
         System.out.println("\tOkies, I deleted this task:" + task);
         System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
+    }
+
+    /**
+     * Prints help message listing all commands.
+     */
+    public static void help() {
+        System.out.println("\tToDo {task} -> Adds a todo task");
+        System.out.println("\tDeadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task");
+        System.out.println("\tEvent {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task\n");
+        System.out.println("\tList -> Lists all tasks");
+        System.out.println("\tMark {task number} -> Marks the task as done");
+        System.out.println("\tUnmark {task number} -> Marks the task as not done");
+        System.out.println("\tDelete {task number} -> Deletes the task from the list\n");
+        System.out.println("\tHelp -> Shows this help message");
+        System.out.println("\tBye -> Exits the program :<\n");
     }
 }
