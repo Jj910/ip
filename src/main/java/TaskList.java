@@ -25,4 +25,14 @@ public class TaskList extends ArrayList<Task> {
             i++;
         }
     }
+
+    /**
+     * Deletes the given task from the task list.
+     *
+     * @param index The index of the task to be removed (0-based).
+     * @return The task that was removed.
+     */
+    public Task remove(int index) {
+        return super.remove(index);
+    }
 }
