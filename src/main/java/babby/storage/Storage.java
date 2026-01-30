@@ -61,6 +61,13 @@ public class Storage {
         while (s.hasNextLine()) {
             String nextLine = s.nextLine();
             String[] taskLine = nextLine.split(" \\| ");
+
+            // Basic validation: at minimum we expect three parts (type | isComplete | title)
+            if (taskLine.length < 3) {
+                System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                continue;
+            }
+
             String taskType = taskLine[0];
             String taskTitle = taskLine[2];
             Boolean isComplete = taskLine[1].equals("1");
@@ -69,10 +76,20 @@ public class Storage {
                 switch (taskType) {
                     case "T" ->  taskList.add(new ToDo(taskTitle, isComplete)); // To Do
                     case "D" ->  {
+                        // Expect an additional field for the deadline time
+                        if (taskLine.length < 4) {
+                            System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                            break;
+                        }
                         LocalDateTime by = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
                         taskList.add(new Deadline(taskTitle, by, isComplete)); // Deadline
                     }
                     case "E" ->  {
+                        // Expect two additional fields for from and to
+                        if (taskLine.length < 5) {
+                            System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                            break;
+                        }
                         LocalDateTime from = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
                         LocalDateTime to = LocalDateTime.parse(taskLine[4], FILE_FORMATTER);
                         taskList.add(new Event(taskTitle, from, to, isComplete)); // Event
