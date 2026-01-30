@@ -128,7 +128,7 @@ public class Babby {
             for (Task task : taskList) {
                 System.out.println(task);
                 fw.write(task.toEncodedString() + System.lineSeparator());
-            };
+            }
             fw.close();
         } catch (IOException e) {
             System.out.println("Error saving task: " + e.getMessage());
