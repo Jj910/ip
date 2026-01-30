@@ -16,6 +16,7 @@ public class Parser {
 
     /**
      * Parse the input and execute the corresponding command on the application.
+     *
      * @param input raw user input line
      * @return true to continue the main loop, false to exit (on bye)
      */
@@ -102,10 +103,19 @@ public class Parser {
 
     private void mark(String input) {
         String[] inputList = input.split(" ");
-        if (inputList.length < 2) { babby.printLine("Oopsie! You didn't provide a task number! :<"); return; }
-        if (!inputList[1].matches("\\d+")) { babby.printLine("Oopsie! The task number must be a positive integer! :<"); return; }
+        if (inputList.length < 2) {
+            babby.printLine("Oopsie! You didn't provide a task number! :<");
+            return;
+        }
+        if (!inputList[1].matches("\\d+")) {
+            babby.printLine("Oopsie! The task number must be a positive integer! :<");
+            return;
+        }
         int taskNumber = Integer.parseInt(inputList[1]);
-        if (taskNumber < 1 || taskNumber > babby.getTaskList().size()) { babby.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<"); return; }
+        if (taskNumber < 1 || taskNumber > babby.getTaskList().size()) {
+            babby.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<");
+            return;
+        }
         int index = taskNumber - 1;
         Task task = babby.getTaskList().get(index);
         task.setDone();
@@ -115,10 +125,19 @@ public class Parser {
 
     private void unmark(String input) {
         String[] inputList = input.split(" ");
-        if (inputList.length < 2) { babby.printLine("Oopsie! You didn't provide a task number! :<"); return; }
-        if (!inputList[1].matches("\\d+")) { babby.printLine("Oopsie! The task number must be a positive integer! :<"); return; }
+        if (inputList.length < 2) {
+            babby.printLine("Oopsie! You didn't provide a task number! :<");
+            return;
+        }
+        if (!inputList[1].matches("\\d+")) {
+            babby.printLine("Oopsie! The task number must be a positive integer! :<");
+            return;
+        }
         int taskNumber = Integer.parseInt(inputList[1]);
-        if (taskNumber < 1 || taskNumber > babby.getTaskList().size()) { babby.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<"); return; }
+        if (taskNumber < 1 || taskNumber > babby.getTaskList().size()) {
+            babby.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<");
+            return;
+        }
         int index = taskNumber - 1;
         Task task = babby.getTaskList().get(index);
         task.setToDo();
@@ -128,10 +147,19 @@ public class Parser {
 
     private void delete(String input) {
         String[] inputList = input.split(" ");
-        if (inputList.length < 2) { babby.printLine("Oopsie! You didn't provide a task number! :<"); return; }
-        if (!inputList[1].matches("\\d+")) { babby.printLine("Oopsie! The task number must be a positive integer! :<"); return; }
+        if (inputList.length < 2) {
+            babby.printLine("Oopsie! You didn't provide a task number! :<");
+            return;
+        }
+        if (!inputList[1].matches("\\d+")) {
+            babby.printLine("Oopsie! The task number must be a positive integer! :<");
+            return;
+        }
         int taskNumber = Integer.parseInt(inputList[1]);
-        if (taskNumber < 1 || taskNumber > babby.getTaskList().size()) { babby.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<"); return; }
+        if (taskNumber < 1 || taskNumber > babby.getTaskList().size()) {
+            babby.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<");
+            return;
+        }
         int index = taskNumber - 1;
         Task task = babby.getTaskList().remove(index);
         babby.getStorage().saveTasks(babby.getTaskList());
