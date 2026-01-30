@@ -5,52 +5,32 @@ import java.time.format.DateTimeParseException;
 
 import java.util.Scanner;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 
 public class Babby {
     private Storage storage;
     private TaskList taskList;
     private Ui ui;
-    private final String FILEPATH;
 
-    private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 
+
     public Babby(String filepath) {
-        this.storage = new Storage();
+        this.storage = new Storage(filepath);
         this.ui = new Ui();
         this.taskList = new TaskList();
-        this.FILEPATH = filepath;
     }
 
     public void run() {
-        Scanner scanner = new Scanner(System.in); // Make scanner
-        File taskFile = initiateTaskFile();
+        Scanner scanner = new Scanner(System.in); // Make scanner for user input
 
         try {
-            this.taskList = parseTasks(taskFile);
+            this.taskList = storage.parseTasks();
         } catch (FileNotFoundException e) {
             System.out.println("Error loading tasks: " + e.getMessage());
         }
 
-        String logo = """
-                 ______        _     _           _\s
-                (____  \\      | |   | |         | |\
-
-                 ____)  )_____| |__ | |__  _   _| |
-                |  __  ((____ |  _ \\|  _ \\| | | |_|\
-
-                | |__)  ) ___ | |_) ) |_) ) |_| |_\s
-                |______/\\_____|____/|____/ \\__  |_|\
-
-                                          (____/  \s""";
-        System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3" +
-                "\n----------------------------------\n");
-        System.out.println("What can I do for you?");
-        help();
+        ui.printWelcomeMessage();
 
         // Main command loop
         while (true) {
@@ -66,18 +46,18 @@ public class Babby {
                 case MARK -> mark(input);
                 case UNMARK -> unmark(input);
                 case DELETE -> delete(input);
-                case HELP -> help();
+                case HELP -> ui.printHelp();
                 case BYE -> {
-                    System.out.println("\tByebyee! See you again soon!");
+                    ui.printGoodbye();
                     return;
                 }
-                default -> System.out.println("\tI'm sorry, I didn't quite get that :<\n\tCould you try again?");
+                default -> ui.printLine("I'm sorry, I didn't quite get that :<\n\tCould you try again?");
             }
         }
     }
 
     public static void main(String[] args) {
-        new Babby().run();
+        new Babby("data/tasks.txt").run();
     }
 
     // Command enums
@@ -108,82 +88,7 @@ public class Babby {
         }
     }
 
-    /**
-     * Initiates the tasks file. If the file does not exist, it creates a new one.
-     *
-     * @return File object representing the tasks file.
-     */
-    private File initiateTaskFile() {
-        File tasks = new File(FILEPATH);
 
-        try {
-            System.out.println("Loading task file...");
-            if (tasks.createNewFile()) {
-                System.out.println("File not found! New task file created");
-            } else {
-                System.out.println("Task file loaded!");
-            }
-        } catch (IOException e) {
-            System.out.println("Error opening/creating tasks file: " + e.getMessage());
-        }
-        return tasks;
-    }
-
-    /**
-     * Saves all tasks.
-     **/
-    private void saveTasks() {
-        try {
-            FileWriter fw = new FileWriter(FILEPATH);
-            System.out.println(1);
-            for (Task task : this.taskList) {
-                System.out.println(task);
-                fw.write(task.toEncodedString() + System.lineSeparator());
-            }
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("Error saving task: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Returns a populated TaskList with all tasks from the given file.
-     *
-     * @param tasks File object for task file.
-     * @throws FileNotFoundException If given file is not found.
-     */
-     private TaskList parseTasks(File tasks) throws FileNotFoundException {
-        System.out.println("Hold on... I'm reading the tasks...");
-         TaskList taskList = new TaskList();
-        Scanner s = new Scanner(tasks);
-        while (s.hasNextLine()) {
-            String nextLine = s.nextLine();
-            String[] taskLine = nextLine.split(" \\| ");
-            String taskType = taskLine[0];
-            String taskTitle = taskLine[2];
-            Boolean isComplete = taskLine[1].equals("1");
-            // Parse for each type of task then add to the task list
-            try {
-                switch (taskType) {
-                    case "T" ->  taskList.add(new ToDo(taskTitle, isComplete)); // To Do
-                    case "D" ->  {
-                        LocalDateTime by = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
-                        taskList.add(new Deadline(taskTitle, by, isComplete)); // Deadline
-                    }
-                    case "E" ->  {
-                        LocalDateTime from = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
-                        LocalDateTime to = LocalDateTime.parse(taskLine[4], FILE_FORMATTER);
-                        taskList.add(new Event(taskTitle, from, to, isComplete)); // Event
-                    }
-                    default -> System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
-                }
-            } catch (Exception e) {
-                System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
-            }
-        }
-        System.out.println("Tasks loaded!");
-        return taskList;
-    }
 
     /**
      * Adds a To Do task to the task list.
@@ -194,14 +99,14 @@ public class Babby {
     public void todo(String input) {
         String[] inputList = input.split("todo ");
         if (inputList.length < 2 || inputList[1].isBlank()) {
-            System.out.println("\tOopsie! The description of a task cannot be empty :<");
+            ui.printLine("Oopsie! The description of a task cannot be empty :<");
             return;
         }
         ToDo task = new ToDo(inputList[1]);
         this.taskList.add(task);
-        saveTasks();
-        System.out.println("\tOkay, I added this task: " + task);
-        System.out.println("\tYou have " + this.taskList.size() + " tasks in the list now!");
+        storage.saveTasks(this.taskList);
+        ui.printLine("Okay, I added this task: " + task);
+        ui.printLine("You have " + this.taskList.size() + " tasks in the list now!");
     }
 
     /**
@@ -213,18 +118,19 @@ public class Babby {
     public void deadline(String input) {
         String[] inputList = input.replaceFirst("deadline ", "").split(" /by ");
         if (inputList.length < 2 || inputList[0].isBlank() || inputList[1].isBlank()) {
-            System.out.println("\tOopsie! You didn't follow the command's format! :<\n\tTry something like \"deadline meet friends /by 31/12/2025 2359\"");
+            ui.printLine("Oopsie! You didn't follow the command's format! :<");
+            ui.printLine("Try something like \"deadline meet friends /by 31/12/2025 2359\"");
             return;
         }
         try {
             LocalDateTime by = LocalDateTime.parse(inputList[1], INPUT_FORMATTER);
             Deadline task = new Deadline(inputList[0], by);
             this.taskList.add(task);
-            saveTasks();
-            System.out.println("\tOkay, I added this task: " + task);
-            System.out.println("\tYou have " + this.taskList.size() + " tasks in the list now!");
+            storage.saveTasks(this.taskList);
+            ui.printLine("Okay, I added this task: " + task);
+            ui.printLine("You have " + this.taskList.size() + " tasks in the list now!");
         } catch (DateTimeParseException e) {
-            System.out.println("\tOopsie! The date/time you provided is wrong. Try something like 31/12/2025 2359");
+            ui.printLine("Oopsie! The date/time you provided is wrong. Try something like 31/12/2025 2359");
         }
     }
 
@@ -237,8 +143,8 @@ public class Babby {
     public void event(String input) {
         String[] inputList = input.replaceFirst("event ", "").split(" /from | /to ");
         if (inputList.length < 3 || inputList[0].isBlank() || inputList[1].isBlank() || inputList[2].isBlank()) {
-            System.out.println("\tOopsie! You didn't follow the command's format! :<" +
-                    "\n\tTry something like \"meet friends /from 01/01/2025 1400 /to 01/01/2025 1600\"");
+            ui.printLine("Oopsie! You didn't follow the command's format! :<");
+            ui.printLine("Try something like \"meet friends /from 01/01/2025 1400 /to 01/01/2025 1600\"");
             return;
         }
         try {
@@ -246,11 +152,11 @@ public class Babby {
             LocalDateTime to = LocalDateTime.parse(inputList[2], INPUT_FORMATTER);
             Event task = new Event(inputList[0], from, to);
             this.taskList.add(task);
-            saveTasks();
-            System.out.println("\tOkay, I added this task: " + task);
-            System.out.println("\tYou have " + this.taskList.size() + " tasks in the list now!");
+            storage.saveTasks(this.taskList);
+            ui.printLine("Okay, I added this task: " + task);
+            ui.printLine("You have " + this.taskList.size() + " tasks in the list now!");
         } catch (DateTimeParseException e) {
-            System.out.println("\tOopsie! The date/time you provided is wrong. Please use DD/MM/YYYY HHMM");
+            ui.printLine("Oopsie! The date/time you provided is wrong. Please use DD/MM/YYYY HHMM");
         }
     }
 
@@ -263,26 +169,26 @@ public class Babby {
         String[] inputList = input.split(" ");
         // Validate that a task number is provided
         if (inputList.length < 2) {
-            System.out.println("\tOopsie! You didn't provide a task number to mark! :<");
+            ui.printLine("Oopsie! You didn't provide a task number to mark! :<");
             return;
         }
         // Validate that the task number is an integer
         if (!inputList[1].matches("\\d+")) {
-            System.out.println("\tOopsie! The task number must be a positive integer! :<");
+            ui.printLine("Oopsie! The task number must be a positive integer! :<");
             return;
         }
         // Validate that the task number is within the range of the task list
         int taskNumber = Integer.parseInt(inputList[1]);
         if (taskNumber < 1 || taskNumber > this.taskList.size()) {
-            System.out.println("\tOopsie! The task number " + taskNumber + " does not exist! :<");
+            ui.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<");
             return;
         }
 
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = this.taskList.get(index);
         task.setDone(); // Mark the task as done
-        saveTasks();
-        System.out.println("\tGood job! You completed this task:\n\t\t" + task);
+        storage.saveTasks(this.taskList);
+        ui.printLine("Good job! You completed this task:\n\t\t" + task);
     }
 
     /**
@@ -294,26 +200,26 @@ public class Babby {
         String[] inputList = input.split(" ");
         // Validate that a task number is provided
         if (inputList.length < 2) {
-            System.out.println("\tOopsie! You didn't provide a task number to unmark! :<");
+            ui.printLine("Oopsie! You didn't provide a task number to unmark! :<");
             return;
         }
         // Validate that the task number is an integer
         if (!inputList[1].matches("\\d+")) {
-            System.out.println("\tOopsie! The task number must be a positive integer! :<");
+            ui.printLine("Oopsie! The task number must be a positive integer! :<");
             return;
         }
         // Validate that the task number is within the range of the task list
         int taskNumber = Integer.parseInt(inputList[1]);
         if (taskNumber < 1 || taskNumber > this.taskList.size()) {
-            System.out.println("\tOopsie! The task number " + taskNumber + " does not exist! :<");
+            ui.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<");
             return;
         }
 
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = this.taskList.get(index);
         task.setToDo(); // Mark the task as not done
-        saveTasks();
-        System.out.println("\tOkay, you need to do this task:\n\t\t" + task);
+        storage.saveTasks(this.taskList);
+        ui.printLine("Okay, you need to do this task:\n\t\t" + task);
     }
 
     /**
@@ -325,40 +231,25 @@ public class Babby {
         String[] inputList = input.split(" ");
         // Validate that a task number is provided
         if (inputList.length < 2) {
-            System.out.println("\tOopsie! You didn't provide a task number to unmark! :<");
+            ui.printLine("Oopsie! You didn't provide a task number to unmark! :<");
             return;
         }
         // Validate that the task number is an integer
         if (!inputList[1].matches("\\d+")) {
-            System.out.println("\tOopsie! The task number must be a positive integer! :<");
+            ui.printLine("Oopsie! The task number must be a positive integer! :<");
             return;
         }
         // Validate that the task number is within the range of the task list
         int taskNumber = Integer.parseInt(inputList[1]);
         if (taskNumber < 1 || taskNumber > this.taskList.size()) {
-            System.out.println("\tOopsie! The task number " + taskNumber + " does not exist! :<");
+            ui.printLine("Oopsie! The task number " + taskNumber + " does not exist! :<");
             return;
         }
 
         int index = Integer.parseInt(inputList[1]) - 1;
         Task task = this.taskList.remove(index);
-        saveTasks();
-        System.out.println("\tOkies, I deleted this task:" + task);
-        System.out.println("\tYou have " + taskList.size() + " tasks in the list now!");
-    }
-
-    /**
-     * Prints help message listing all commands.
-     */
-    public static void help() {
-        System.out.println("\tToDo {task} -> Adds a todo task");
-        System.out.println("\tDeadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task");
-        System.out.println("\tEvent {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task\n");
-        System.out.println("\tList -> Lists all tasks");
-        System.out.println("\tMark {task number} -> Marks the task as done");
-        System.out.println("\tUnmark {task number} -> Marks the task as not done");
-        System.out.println("\tDelete {task number} -> Deletes the task from the list\n");
-        System.out.println("\tHelp -> Shows this help message");
-        System.out.println("\tBye -> Exits the program :<\n");
+        storage.saveTasks(this.taskList);
+        ui.printLine("Okies, I deleted this task:" + task);
+        ui.printLine("You have " + taskList.size() + " tasks in the list now!");
     }
 }
