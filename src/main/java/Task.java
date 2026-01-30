@@ -42,4 +42,20 @@ public abstract class Task {
         String complete = this.isComplete ? "✔" : " ";
         return "[" + complete + "] " + title;
     }
+
+    public Boolean getIsComplete() {
+        return this.isComplete;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setDone() {
+        this.isComplete = true;
+    }
+
+    public void setToDo() {
+        this.isComplete = false;
+    }
 }
