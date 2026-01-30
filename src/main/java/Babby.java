@@ -66,14 +66,14 @@ public class Babby {
         System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3" +
                 "\n----------------------------------\n");
         System.out.println("What can I do for you?");
-        System.out.println("\ttodo {task} -> Adds a todo task");
-        System.out.println("\tdeadline {task} /by {deadline} -> Adds a deadline task");
-        System.out.println("\tevent {task} /from {start time} /to {end time} -> Adds a event task\n");
-        System.out.println("\tlist -> Lists all tasks");
-        System.out.println("\tmark {task number} -> Marks the task as done");
-        System.out.println("\tunmark {task number} -> Marks the task as not done");
-        System.out.println("\tdelete {task number} -> Deletes the task from the list\n");
-        System.out.println("\tbye -> Exits the program :<\n");
+        System.out.println("\tToDo {task} -> Adds a todo task");
+        System.out.println("\tDeadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task");
+        System.out.println("\tEvent {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task\n");
+        System.out.println("\tList -> Lists all tasks");
+        System.out.println("\tMark {task number} -> Marks the task as done");
+        System.out.println("\tUnmark {task number} -> Marks the task as not done");
+        System.out.println("\tDelete {task number} -> Deletes the task from the list\n");
+        System.out.println("\tBye -> Exits the program :<\n");
 
         // Main command loop
         while (true) {
