@@ -46,7 +46,6 @@ public class Babby {
         File taskFile = initiateTaskFile();
 
         try {
-            System.out.println("Loading tasks...");
             taskList = parseTasks(taskFile);
         } catch (FileNotFoundException e) {
             System.out.println("Error loading tasks: " + e.getMessage());
@@ -116,7 +115,6 @@ public class Babby {
         } catch (IOException e) {
             System.out.println("Error opening/creating tasks file: " + e.getMessage());
         }
-
         return tasks;
     }
 
@@ -144,6 +142,7 @@ public class Babby {
      * @throws FileNotFoundException If given file is not found.
      */
      private static ArrayList<Task> parseTasks(File tasks) throws FileNotFoundException {
+        System.out.println("Hold on... I'm reading the tasks...");
         ArrayList<Task> taskList = new ArrayList<>();
         Scanner s = new Scanner(tasks);
         while (s.hasNextLine()) {
@@ -164,6 +163,7 @@ public class Babby {
                 System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
             }
         }
+        System.out.println("Tasks loaded!");
         return taskList;
     }
 
