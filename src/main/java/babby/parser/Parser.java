@@ -136,8 +136,8 @@ public class Parser {
     }
 
     /**
-     * Parse and return output for todo command
-     * @param input Title of the todo task
+     * Parse and return output for to do command
+     * @param input Title of the to do task
      * @return String output
      */
     private String getTodoOutput(String input) {
