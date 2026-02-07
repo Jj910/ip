@@ -1,23 +1,26 @@
 package babby.parser;
 
-import babby.task.Task;
-import babby.task.ToDo;
-import babby.task.Deadline;
-import babby.task.Event;
-import babby.Babby;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import babby.Babby;
+import babby.task.Deadline;
+import babby.task.Event;
+import babby.task.Task;
+import babby.task.ToDo;
 
 /**
  * Class that parses input data and calls the right commands.
  */
 public class Parser {
-    private final Babby babby;
-
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
-
+    private final Babby babby;
+    /**
+     * Creates a Parser instance associated with the given Babby application.
+     *
+     * @param babby the Babby application instance
+     */
     public Parser(Babby babby) {
         this.babby = babby;
     }
@@ -26,34 +29,36 @@ public class Parser {
      * Parse the input and execute the corresponding command on the application.
      *
      * @param input raw user input line
-     * @return true to continue the main loop, false to exit (on bye)
+     * @return true to continue the main loop, false to exit (on byeCommand)
      */
     public boolean parseAndExecute(String input) {
-        String cmdToken = "";
+        String commandToken = "";
         if (input != null && !input.isBlank()) {
             String[] parts = input.split(" ");
-            if (parts.length > 0) cmdToken = parts[0];
+            if (parts.length > 0) {
+                commandToken = parts[0];
+            }
         }
 
         // Normalize input to non-null to avoid passing null into methods
-        String safeInput = (input == null) ? "" : input;
+        String notNullInput = (input == null) ? "" : input;
 
         // Add new commands to the command enums too
-        switch (Command.parse(cmdToken)) {
-            case TODO -> todo(safeInput);
-            case DEADLINE -> deadline(safeInput);
-            case EVENT -> event(safeInput);
-            case LIST -> babby.list();
-            case FIND -> find(safeInput);
-            case MARK -> mark(safeInput);
-            case UNMARK -> unmark(safeInput);
-            case DELETE -> delete(safeInput);
-            case HELP -> babby.help();
-            case BYE -> {
-                babby.bye();
-                return false;
-            }
-            default -> babby.printLine("I'm sorry, I didn't quite get that :<\n\tCould you try again?");
+        switch (Command.parse(commandToken)) {
+        case TODO -> todo(notNullInput);
+        case DEADLINE -> deadline(notNullInput);
+        case EVENT -> event(notNullInput);
+        case LIST -> babby.list();
+        case FIND -> find(notNullInput);
+        case MARK -> mark(notNullInput);
+        case UNMARK -> unmark(notNullInput);
+        case DELETE -> delete(notNullInput);
+        case HELP -> babby.help();
+        case BYE -> {
+            babby.byeCommand();
+            return false;
+        }
+        default -> babby.printLine("I'm sorry, I didn't quite get that :<\n\tCould you try again?");
         }
         return true;
     }
@@ -65,51 +70,53 @@ public class Parser {
      * @return String output representing the result of the command
      */
     public String parseAndReturnOutput(String input) {
-        String cmdToken = "";
+        String commandToken = "";
         if (input != null && !input.isBlank()) {
             String[] parts = input.split(" ");
-            if (parts.length > 0) cmdToken = parts[0];
+            if (parts.length > 0) {
+                commandToken = parts[0];
+            }
         }
 
         // Normalize input to non-null to avoid passing null into methods
-        String safeInput = (input == null) ? "" : input;
+        String notNullInput = (input == null) ? "" : input;
 
         // Add new commands to the command enums too
-        switch (Command.parse(cmdToken)) {
-            case TODO -> {
-                return getTodoOutput(safeInput);
-            }
-            case DEADLINE -> {
-                return getDeadlineOutput(safeInput);
-            }
-            case EVENT -> {
-                return getEventOutput(safeInput);
-            }
-            case LIST -> {
-                return getListOutput();
-            }
-            case FIND -> {
-                return getFindOutput(safeInput);
-            }
-            case MARK -> {
-                return getMarkOutput(safeInput);
-            }
-            case UNMARK -> {
-                return getUnmarkOutput(safeInput);
-            }
-            case DELETE -> {
-                return getDeleteOutput(safeInput);
-            }
-            case HELP -> {
-                return getHelpOutput();
-            }
-            case BYE -> {
-                babby.bye();
-                return getByeOutput();
-            }
-            default -> {
-                return "I'm sorry, I didn't quite get that :<\n\tCould you try again?";
-            }
+        switch (Command.parse(commandToken)) {
+        case TODO -> {
+            return getTodoOutput(notNullInput);
+        }
+        case DEADLINE -> {
+            return getDeadlineOutput(notNullInput);
+        }
+        case EVENT -> {
+            return getEventOutput(notNullInput);
+        }
+        case LIST -> {
+            return getListOutput();
+        }
+        case FIND -> {
+            return getFindOutput(notNullInput);
+        }
+        case MARK -> {
+            return getMarkOutput(notNullInput);
+        }
+        case UNMARK -> {
+            return getUnmarkOutput(notNullInput);
+        }
+        case DELETE -> {
+            return getDeleteOutput(notNullInput);
+        }
+        case HELP -> {
+            return getHelpOutput();
+        }
+        case BYE -> {
+            babby.byeCommand();
+            return getByeOutput();
+        }
+        default -> {
+            return "I'm sorry, I didn't quite get that :<\n\tCould you try again?";
+        }
         }
     }
 
@@ -130,7 +137,7 @@ public class Parser {
 
     /**
      * Parse and return output for todo command
-     * @param input
+     * @param input Title of the todo task
      * @return String output
      */
     private String getTodoOutput(String input) {
@@ -142,7 +149,7 @@ public class Parser {
         babby.getTaskList().add(task);
         babby.getStorage().saveTasks(babby.getTaskList());
         return "Okay, I added this task: " + task + "\n"
-                + "You have "+ babby.getTaskList().size() + " tasks in the list now!";
+                + "You have " + babby.getTaskList().size() + " tasks in the list now!";
     }
 
     private void deadline(String input) {
@@ -166,7 +173,7 @@ public class Parser {
 
     /**
      * Parse and return output for deadline command
-     * @param input
+     * @param input Title and by time of the deadline task in the format "deadline {title} /by {DD/MM/YYYY HHMM}"
      * @return String output
      */
     private String getDeadlineOutput(String input) {
@@ -180,8 +187,8 @@ public class Parser {
             Deadline task = new Deadline(inputList[0], by);
             babby.getTaskList().add(task);
             babby.getStorage().saveTasks(babby.getTaskList());
-            return "Okay, I added this task: " + task +
-                    "\nYou have " + babby.getTaskList().size() + " tasks in the list now!";
+            return "Okay, I added this task: " + task
+                    + "\nYou have " + babby.getTaskList().size() + " tasks in the list now!";
         } catch (DateTimeParseException e) {
             return "Oopsie! The date/time you provided is wrong. Try something like 31/12/2025 2359";
         }
@@ -209,7 +216,8 @@ public class Parser {
 
     /**
      * Parse and return output for event command
-     * @param input
+     * @param input Title, from time and to time of the event task in the
+     *              format "event {title} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM}"
      * @return String output
      */
     private String getEventOutput(String input) {
@@ -224,8 +232,8 @@ public class Parser {
             Event task = new Event(inputList[0], from, to);
             babby.getTaskList().add(task);
             babby.getStorage().saveTasks(babby.getTaskList());
-            return "Okay, I added this task: " + task +
-                    "\nYou have " + babby.getTaskList().size() + " tasks in the list now!";
+            return "Okay, I added this task: " + task
+                    + "\nYou have " + babby.getTaskList().size() + " tasks in the list now!";
         } catch (DateTimeParseException e) {
             return "Oopsie! The date/time you provided is wrong. Please use DD/MM/YYYY HHMM";
         }
@@ -322,7 +330,9 @@ public class Parser {
             i++;
         }
         // remove trailing newline
-        if (sb.length() > 0 && sb.charAt(sb.length() - 1) == '\n') sb.setLength(sb.length() - 1);
+        if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == '\n') {
+            sb.setLength(sb.length() - 1);
+        }
         return sb.toString();
     }
 
@@ -346,7 +356,9 @@ public class Parser {
         if (matchIndex == 1) {
             return "\tNo matching tasks found.";
         }
-        if (sb.length() > 0 && sb.charAt(sb.length() - 1) == '\n') sb.setLength(sb.length() - 1);
+        if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == '\n') {
+            sb.setLength(sb.length() - 1);
+        }
         return sb.toString();
     }
 
@@ -403,22 +415,26 @@ public class Parser {
         int index = taskNumber - 1;
         Task task = babby.getTaskList().remove(index);
         babby.getStorage().saveTasks(babby.getTaskList());
-        return "Okies, I deleted this task:" + task + "\nYou have " + babby.getTaskList().size() + " tasks in the list now!";
+        return "Okies, I deleted this task:" + task + "\nYou have "
+                + babby.getTaskList().size() + " tasks in the list now!";
     }
 
+    @SuppressWarnings("checkstyle:Regexp")
     private String getHelpOutput() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ToDo {task} -> Adds a todo task\n");
-        sb.append("Deadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task\n");
-        sb.append("Event {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task\n\n");
-        sb.append("List -> Lists all tasks\n");
-        sb.append("Find {text} -> Finds all tasks with your input, you can search for date/time too!\n");
-        sb.append("Mark {task number} -> Marks the task as done\n");
-        sb.append("Unmark {task number} -> Marks the task as not done\n");
-        sb.append("Delete {task number} -> Deletes the task from the list\n\n");
-        sb.append("Help -> Shows this help message\n");
-        sb.append("Bye -> Exits the program :<\n");
-        return sb.toString();
+        return """
+                ToDo {task} -> Adds a todo task
+                Deadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task
+                Event {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task
+                \n
+                List -> Lists all tasks
+                Find {text} -> Finds all tasks with your input, you can search for date/time too!
+                Mark {task number} -> Marks the task as done
+                Unmark {task number} -> Marks the task as not done
+                Delete {task number} -> Deletes the task from the list
+                \n
+                Help -> Shows this help message
+                Bye -> Exits the program :<
+                """;
     }
 
     private String getByeOutput() {
@@ -436,7 +452,7 @@ public class Parser {
         UNMARK("unmark"),
         DELETE("delete"),
         HELP("help"),
-        BYE("bye"),
+        BYE("byeCommand"),
         UNKNOWN("");
 
         private final String command;
@@ -446,9 +462,13 @@ public class Parser {
         }
 
         public static Command parse(String input) {
-            if (input == null || input.isEmpty()) return UNKNOWN;
+            if (input == null || input.isEmpty()) {
+                return UNKNOWN;
+            }
             for (Command command : values()) {
-                if (input.toLowerCase().equals(command.command)) return command;
+                if (input.toLowerCase().equals(command.command)) {
+                    return command;
+                }
             }
             return UNKNOWN;
         }

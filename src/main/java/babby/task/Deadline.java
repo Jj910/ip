@@ -8,10 +8,10 @@ import java.time.format.DateTimeFormatter;
  * Inherits from the Task class.
  */
 public class Deadline extends Task {
-    private final LocalDateTime by;
-
     private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+
+    private final LocalDateTime by;
 
     /**
      * Creates a Deadline task.
@@ -40,11 +40,12 @@ public class Deadline extends Task {
     /**
      * @inheritDoc
      *
-     * @return Encoded string of the task in the format "D | {1/0} | title | by" where by is saved in ISO format.
+     * @return Encoded string of the task in the format "D | {1/0} | title | by" where "by" is saved in ISO format.
      */
     @Override
     public String toEncodedString() {
-        return "D | " + (super.getIsComplete() ? "1" : "0") + " | " + super.getTitle() + " | " + this.by.format(FILE_FORMATTER);
+        return "D | " + (super.getIsComplete() ? "1" : "0") + " | " + super.getTitle()
+                + " | " + this.by.format(FILE_FORMATTER);
     }
 
     @Override

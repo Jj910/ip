@@ -1,11 +1,5 @@
 package babby.storage;
 
-import babby.task.ToDo;
-import babby.task.Deadline;
-import babby.task.Event;
-import babby.task.Task;
-import babby.task.TaskList;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -14,17 +8,38 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import babby.task.Deadline;
+import babby.task.Event;
+import babby.task.Task;
+import babby.task.TaskList;
+import babby.task.ToDo;
+
 /**
  * This is a placeholder class for Storage functionality.
  * Future implementations will handle data storage operations.
  */
 public class Storage {
-    private final String FILEPATH;
-    private final File taskFile;
+    private static final String DEFAULT_FILEPATH = "data/babby.txt";
     private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
+    private final String filepath;
+    private final File taskFile;
+
+    /**
+     * Creates a Storage object with the specified file path.
+     *
+     * @param filePath Path to the tasks file.
+     */
     public Storage(String filePath) {
-        this.FILEPATH = filePath;
+        this.filepath = filePath;
+        this.taskFile = initiateTaskFile();
+    }
+
+    /**
+     * Creates a Storage object with the default file path.
+     */
+    public Storage() {
+        this.filepath = DEFAULT_FILEPATH;
         this.taskFile = initiateTaskFile();
     }
 
@@ -34,7 +49,7 @@ public class Storage {
      * @return File object representing the tasks file.
      */
     public File initiateTaskFile() {
-        File tasks = new File(FILEPATH);
+        File tasks = new File(filepath);
 
         try {
             System.out.println("Loading task file...");
@@ -74,27 +89,27 @@ public class Storage {
             // Parse for each type of task then add to the task list
             try {
                 switch (taskType) {
-                    case "T" ->  taskList.add(new ToDo(taskTitle, isComplete)); // To Do
-                    case "D" ->  {
-                        // Expect an additional field for the deadline time
-                        if (taskLine.length < 4) {
-                            System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
-                            break;
-                        }
-                        LocalDateTime by = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
-                        taskList.add(new Deadline(taskTitle, by, isComplete)); // Deadline
+                case "T" -> taskList.add(new ToDo(taskTitle, isComplete)); // To Do
+                case "D" -> {
+                    // Expect an additional field for the deadline time
+                    if (taskLine.length < 4) {
+                        System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                        break;
                     }
-                    case "E" ->  {
-                        // Expect two additional fields for from and to
-                        if (taskLine.length < 5) {
-                            System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
-                            break;
-                        }
-                        LocalDateTime from = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
-                        LocalDateTime to = LocalDateTime.parse(taskLine[4], FILE_FORMATTER);
-                        taskList.add(new Event(taskTitle, from, to, isComplete)); // Event
+                    LocalDateTime by = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
+                    taskList.add(new Deadline(taskTitle, by, isComplete)); // Deadline
+                }
+                case "E" -> {
+                    // Expect two additional fields for from and to
+                    if (taskLine.length < 5) {
+                        System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                        break;
                     }
-                    default -> System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                    LocalDateTime from = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
+                    LocalDateTime to = LocalDateTime.parse(taskLine[4], FILE_FORMATTER);
+                    taskList.add(new Event(taskTitle, from, to, isComplete)); // Event
+                }
+                default -> System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
                 }
             } catch (Exception e) {
                 System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");

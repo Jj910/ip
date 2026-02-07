@@ -2,7 +2,7 @@ package babby.task;
 
 import java.util.ArrayList;
 
-/*
+/**
  * Class that stores the list of tasks for Babby.
  */
 public class TaskList extends ArrayList<Task> {
@@ -97,7 +97,9 @@ public class TaskList extends ArrayList<Task> {
             i++;
         }
         // Remove trailing newline
-        if (!output.isEmpty() && output.charAt(output.length() - 1) == '\n') output.setLength(output.length() - 1);
+        if (!output.isEmpty() && output.charAt(output.length() - 1) == '\n') {
+            output.setLength(output.length() - 1);
+        }
         return output.toString();
     }
 }

@@ -23,8 +23,8 @@ public class MainWindow extends AnchorPane {
 
     private Babby babby;
 
-    private final Image USER_IMAGE = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
-    private final Image BABBY_IMAGE = new Image(this.getClass().getResourceAsStream("/images/Babby.jpg"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
+    private final Image babbyImage = new Image(this.getClass().getResourceAsStream("/images/Babby.jpg"));
 
     @FXML
     public void initialize() {
@@ -45,8 +45,8 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         String response = babby.getResponse(input);
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, USER_IMAGE),
-                DialogBox.getBabbyDialog(response, BABBY_IMAGE)
+                DialogBox.getUserDialog(input, userImage),
+                DialogBox.getBabbyDialog(response, babbyImage)
         );
         userInput.clear();
     }

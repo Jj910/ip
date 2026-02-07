@@ -1,14 +1,16 @@
 package babby.parser;
 
-import babby.Babby;
-import babby.task.Task;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import babby.Babby;
+import babby.task.Task;
 
 public class ParserTest {
 
@@ -51,7 +53,9 @@ public class ParserTest {
                     i++;
                 }
             }
-            if (i == 1) outputs.add("FIND: nomatch");
+            if (i == 1) {
+                outputs.add("FIND: nomatch");
+            }
         }
 
         @Override
@@ -60,7 +64,7 @@ public class ParserTest {
         }
 
         @Override
-        public void bye() {
+        public void byeCommand() {
             outputs.add("BYE");
         }
 
@@ -95,7 +99,10 @@ public class ParserTest {
         // UNKNOWN
         cont = parser.parseAndExecute("nonsensecommand");
         assertTrue(cont);
-        assertTrue(babby.getOutputs().stream().anyMatch(s -> s.toLowerCase().contains("i'm sorry") || s.toLowerCase().contains("i didn't quite get")));
+        assertTrue(babby.getOutputs().stream()
+                .anyMatch(
+                s -> s.toLowerCase().contains("i'm sorry") || s.toLowerCase().contains("i didn't quite get")
+                ));
     }
 
     @Test
@@ -111,7 +118,8 @@ public class ParserTest {
         // mark 1
         parser.parseAndExecute("mark 1");
         assertTrue(babby.getTaskList().get(0).getIsComplete());
-        assertTrue(babby.getOutputs().stream().anyMatch(s -> s.contains("Good job") || s.contains("completed this task")));
+        assertTrue(babby.getOutputs().stream()
+                .anyMatch(s -> s.contains("Good job") || s.contains("completed this task")));
 
         // unmark 1
         parser.parseAndExecute("unmark 1");
@@ -136,9 +144,9 @@ public class ParserTest {
         parser.parseAndExecute("help");
         assertTrue(babby.getOutputs().contains("HELP"));
 
-        // bye
+        // byeCommand
         babby.getOutputs().clear();
-        boolean cont = parser.parseAndExecute("bye");
+        boolean cont = parser.parseAndExecute("byeCommand");
         assertFalse(cont);
         assertTrue(babby.getOutputs().contains("BYE"));
     }

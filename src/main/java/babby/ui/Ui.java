@@ -9,6 +9,9 @@ public class Ui {
         System.out.println("\t" + message);
     }
 
+    /**
+     * Prints the welcome message along with the ASCII art logo.
+     */
     public void printWelcomeMessage() {
         String logo = """
                  ______        _     _           _\s
@@ -21,8 +24,8 @@ public class Ui {
                 |______/\\_____|____/|____/ \\__  |_|\
 
                                           (____/  \s""";
-        System.out.println("Hello! I'm\n" + logo +"\nSo nice to meet you! Lets be friends <3" +
-                "\n----------------------------------\n");
+        System.out.println("Hello! I'm\n" + logo + "\nSo nice to meet you! Lets be friends <3"
+                + "\n----------------------------------\n");
         System.out.println("What can I do for you?");
         this.printHelp();
     }

@@ -11,7 +11,9 @@ public class ToDo extends Task {
      *
      * @param title Title of the To Do task.
      */
-    public ToDo(String title) { super(title); }
+    public ToDo(String title) {
+        super(title);
+    }
 
     /**
      * Creates a To Do task with specified completion status.

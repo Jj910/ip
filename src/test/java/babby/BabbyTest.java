@@ -1,8 +1,9 @@
-package babby;  //same package as the class being tested
+package babby;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class BabbyTest {
     @Test

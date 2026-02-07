@@ -1,13 +1,12 @@
 package babby;
 
-import babby.ui.Ui;
-import babby.task.TaskList;
-import babby.parser.Parser;
-import babby.storage.Storage;
-
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import java.io.FileNotFoundException;
+import babby.parser.Parser;
+import babby.storage.Storage;
+import babby.task.TaskList;
+import babby.ui.Ui;
 
 /**
  * Entry point and main application class for Babby.
@@ -24,6 +23,16 @@ public class Babby {
     private final Ui ui;
     private TaskList taskList;
 
+    /**
+     * Creates a new Babby application with the given file path for persistence.
+     *
+     * @param filepath path to the tasks file
+     */
+    public Babby(String filepath) {
+        this.storage = new Storage(filepath);
+        this.ui = new Ui();
+        this.taskList = new TaskList();
+    }
 
     /**
      * Returns the configured Storage component used for reading/writing tasks.
@@ -41,18 +50,6 @@ public class Babby {
      */
     public TaskList getTaskList() {
         return this.taskList;
-    }
-
-
-    /**
-     * Creates a new Babby application with the given file path for persistence.
-     *
-     * @param filepath path to the tasks file
-     */
-    public Babby(String filepath) {
-        this.storage = new Storage(filepath);
-        this.ui = new Ui();
-        this.taskList = new TaskList();
     }
 
     /**
@@ -78,7 +75,9 @@ public class Babby {
             String input = scanner.nextLine();
 
             boolean continueLoop = parser.parseAndExecute(input);
-            if (!continueLoop) return;
+            if (!continueLoop) {
+                return;
+            }
         }
     }
 
@@ -143,7 +142,7 @@ public class Babby {
     /**
      * Print goodbye message and perform any shutdown tasks (delegates to Ui).
      */
-    public void bye() {
+    public void byeCommand() {
         this.ui.printGoodbye();
     }
 

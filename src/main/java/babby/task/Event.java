@@ -8,11 +8,10 @@ import java.time.format.DateTimeFormatter;
  * Inherits from the Task class.
  */
 public class Event extends Task {
-    private final LocalDateTime from;
-    private final LocalDateTime to;
-
     private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+    private final LocalDateTime from;
+    private final LocalDateTime to;
 
     /**
      * Creates an Event task.
@@ -44,8 +43,8 @@ public class Event extends Task {
 
     /**
      * @inheritDoc
-     *
-     * @return Encoded string of the task in the format "E | {1/0} | title | from | to" where datetimes are saved in ISO format.
+     * @return Encoded string of the task in the format "E | {1/0} | title | from | to" where
+     *         "datetimes" are saved in ISO format
      */
     @Override
     public String toEncodedString() {
@@ -55,6 +54,7 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E] " + super.toString() + " (From: " + this.from.format(DISPLAY_FORMATTER) + " To: " + this.to.format(DISPLAY_FORMATTER) + ")";
+        return "[E] " + super.toString() + " (From: " + this.from.format(DISPLAY_FORMATTER)
+                + " To: " + this.to.format(DISPLAY_FORMATTER) + ")";
     }
 }

@@ -1,14 +1,13 @@
 package babby.storage;
 
-import org.junit.jupiter.api.Test;
-import babby.task.TaskList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import babby.task.TaskList;
 
 public class StorageTest {
     @Test
@@ -16,7 +15,9 @@ public class StorageTest {
         String tmpPath = "data/test_tasks.txt";
         // create a temporary file with two tasks in encoded format
         File f = new File(tmpPath);
-        if (f.exists()) f.delete();
+        if (f.exists()) {
+            f.delete();
+        }
         f.createNewFile();
 
         FileWriter fw = new FileWriter(f);
