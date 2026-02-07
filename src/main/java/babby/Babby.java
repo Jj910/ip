@@ -88,7 +88,28 @@ public class Babby {
      * @param args command-line arguments (ignored)
      */
     public static void main(String[] args) {
-        new Babby("data/tasks.txt").run();
+        try {
+            new Babby("data/tasks.txt").run();
+        } catch (Throwable t) {
+            System.err.println("Unhandled exception in main:");
+            t.printStackTrace();
+            Throwable cause = t.getCause();
+            while (cause != null) {
+                System.err.println("Caused by:");
+                cause.printStackTrace();
+                cause = cause.getCause();
+            }
+            // ensure a non-zero exit code so CI notices the failure
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        Parser parser = new Parser(this);
+        return parser.parseAndReturnOutput(input);
     }
 
     /**
@@ -96,6 +117,13 @@ public class Babby {
      */
     public void list() {
         this.taskList.list();
+    }
+
+    /**
+     * @return String representation of current tasks using the TaskList listing helper.
+     */
+    public String getListString() {
+        return this.taskList.toString();
     }
 
     /**

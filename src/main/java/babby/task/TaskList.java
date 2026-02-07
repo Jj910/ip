@@ -83,4 +83,21 @@ public class TaskList extends ArrayList<Task> {
     public Task remove(int index) {
         return super.remove(index);
     }
+
+    @Override
+    public String toString() {
+        if (this.isEmpty()) {
+            return "Your task list is empty! Add some tasks first :)";
+        }
+
+        int i = 1;
+        StringBuilder output = new StringBuilder("Here are your tasks:\n");
+        for (Task task : this) {
+            output.append("\t\t").append(i).append(") ").append(task).append("\n");
+            i++;
+        }
+        // Remove trailing newline
+        if (!output.isEmpty() && output.charAt(output.length() - 1) == '\n') output.setLength(output.length() - 1);
+        return output.toString();
+    }
 }
