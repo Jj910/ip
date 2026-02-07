@@ -34,9 +34,9 @@ public class Parser {
     public boolean parseAndExecute(String input) {
         String commandToken = "";
         if (input != null && !input.isBlank()) {
-            String[] parts = input.split(" ");
-            if (parts.length > 0) {
-                commandToken = parts[0];
+            String[] inputTokens = input.split(" ");
+            if (inputTokens.length > 0) {
+                commandToken = inputTokens[0];
             }
         }
 
@@ -72,9 +72,9 @@ public class Parser {
     public String parseAndReturnOutput(String input) {
         String commandToken = "";
         if (input != null && !input.isBlank()) {
-            String[] parts = input.split(" ");
-            if (parts.length > 0) {
-                commandToken = parts[0];
+            String[] inputTokens = input.split(" ");
+            if (inputTokens.length > 0) {
+                commandToken = inputTokens[0];
             }
         }
 
@@ -306,12 +306,12 @@ public class Parser {
     }
 
     private void find(String input) {
-        String[] parts = input.split(" ", 2);
-        if (parts.length < 2 || parts[1].isBlank()) {
+        String[] inputTokens = input.split(" ", 2);
+        if (inputTokens.length < 2 || inputTokens[1].isBlank()) {
             babby.printLine("Oopsie! You didn't provide a search query! :<");
             return;
         }
-        String query = parts[1].trim();
+        String query = inputTokens[1].trim();
         babby.find(query);
     }
 
@@ -337,11 +337,11 @@ public class Parser {
     }
 
     private String getFindOutput(String input) {
-        String[] parts = input.split(" ", 2);
-        if (parts.length < 2 || parts[1].isBlank()) {
+        String[] inputTokens = input.split(" ", 2);
+        if (inputTokens.length < 2 || inputTokens[1].isBlank()) {
             return "Oopsie! You didn't provide a search query! :<";
         }
-        String query = parts[1].trim().toLowerCase();
+        String query = inputTokens[1].trim().toLowerCase();
         StringBuilder sb = new StringBuilder();
         sb.append("\tHere are the matching tasks in your list:\n");
         int matchIndex = 1;

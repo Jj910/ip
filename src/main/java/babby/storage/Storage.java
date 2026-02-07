@@ -49,11 +49,11 @@ public class Storage {
      * @return File object representing the tasks file.
      */
     public File initiateTaskFile() {
-        File tasks = new File(filepath);
+        File tasksFile = new File(filepath);
 
         try {
             System.out.println("Loading task file...");
-            if (tasks.createNewFile()) {
+            if (tasksFile.createNewFile()) {
                 System.out.println("File not found! New task file created");
             } else {
                 System.out.println("Task file loaded!");
@@ -61,7 +61,7 @@ public class Storage {
         } catch (IOException e) {
             System.out.println("Error opening/creating tasks file: " + e.getMessage());
         }
-        return tasks;
+        return tasksFile;
     }
 
     /**
@@ -85,7 +85,7 @@ public class Storage {
 
             String taskType = taskLine[0];
             String taskTitle = taskLine[2];
-            Boolean isComplete = taskLine[1].equals("1");
+            boolean isComplete = taskLine[1].equals("1");
             // Parse for each type of task then add to the task list
             try {
                 switch (taskType) {

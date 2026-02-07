@@ -5,7 +5,7 @@ package babby.task;
  */
 public abstract class Task {
     private final String title;
-    private Boolean isComplete;
+    private boolean isComplete;
 
     /**
      * Creates a task with the title specified.
@@ -23,7 +23,7 @@ public abstract class Task {
      * @param title Title of the task.
      * @param isComplete Completion status of the task. True if the task is complete, false otherwise.
      */
-    public Task(String title, Boolean isComplete) {
+    public Task(String title, boolean isComplete) {
         this.title = title;
         this.isComplete = isComplete;
     }
@@ -41,7 +41,7 @@ public abstract class Task {
         return "[" + complete + "] " + title;
     }
 
-    public Boolean getIsComplete() {
+    public boolean getIsComplete() {
         return this.isComplete;
     }
 

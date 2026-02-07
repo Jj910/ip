@@ -76,6 +76,7 @@ public class Babby {
 
             boolean continueLoop = parser.parseAndExecute(input);
             if (!continueLoop) {
+                scanner.close();
                 return;
             }
         }

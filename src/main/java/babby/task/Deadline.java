@@ -32,7 +32,7 @@ public class Deadline extends Task {
      * @param by Deadline of the task.
      * @param isComplete Completion status of the task. True if the task is complete, false otherwise.
      */
-    public Deadline(String title, LocalDateTime by, Boolean isComplete) {
+    public Deadline(String title, LocalDateTime by, boolean isComplete) {
         super(title, isComplete);
         this.by = by;
     }

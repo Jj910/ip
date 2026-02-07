@@ -35,7 +35,7 @@ public class Event extends Task {
      * @param to End time of the event.
      * @param isComplete Completion status of the task. True if the task is complete, false otherwise.
      */
-    public Event(String title, LocalDateTime from, LocalDateTime to, Boolean isComplete) {
+    public Event(String title, LocalDateTime from, LocalDateTime to, boolean isComplete) {
         super(title, isComplete);
         this.from = from;
         this.to = to;

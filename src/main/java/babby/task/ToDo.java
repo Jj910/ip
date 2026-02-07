@@ -21,7 +21,7 @@ public class ToDo extends Task {
      * @param title Title of the To Do task.
      * @param isComplete Completion status of the task. True if the task is complete, false otherwise.
      */
-    public ToDo(String title, Boolean isComplete) {
+    public ToDo(String title, boolean isComplete) {
         super(title, isComplete);
     }
 
