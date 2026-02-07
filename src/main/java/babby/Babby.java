@@ -10,8 +10,6 @@ import babby.ui.Ui;
 
 /**
  * Entry point and main application class for Babby.
- * I forgot to add the Javadoc branch to the earlier commit, so I used CoPilot to
- * generate the comments for this class
  * Responsibilities:
  * - Wire together Storage, Ui and TaskList components.
  * - Run the main command loop and delegate parsing/execution to {@code Parser}.
