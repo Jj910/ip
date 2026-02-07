@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Babby babby = new Babby("data/tasks.txt");
+    private final Babby BABBY = new Babby("data/tasks.txt");
 
     @Override
     public void start(Stage stage) {
@@ -23,7 +23,7 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             stage.setTitle("Babby | Your little companion friend <3");
-            fxmlLoader.<babby.ui.MainWindow>getController().setBabby(babby);  // inject the Babby instance
+            fxmlLoader.<babby.ui.MainWindow>getController().setBabby(BABBY);  // inject the Babby instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
