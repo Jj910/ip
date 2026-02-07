@@ -19,7 +19,7 @@ import babby.task.ToDo;
  * Future implementations will handle data storage operations.
  */
 public class Storage {
-    private static final String DEFAULT_FILEPATH = "data/babby.txt";
+    private static final String DEFAULT_FILEPATH = "data/tasks.txt";
     private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     private final String filepath;
