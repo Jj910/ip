@@ -1,6 +1,7 @@
 package babby.ui;
 
 import babby.Babby;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -26,11 +27,6 @@ public class MainWindow extends AnchorPane {
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
     private final Image babbyImage = new Image(this.getClass().getResourceAsStream("/images/Babby.jpg"));
 
-    @FXML
-    public void initialize() {
-        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-    }
-
     /** Injects the Babby instance */
     public void setBabby(Babby b) {
         babby = b;
@@ -49,5 +45,6 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getBabbyDialog(response, babbyImage)
         );
         userInput.clear();
+        Platform.runLater(() -> scrollPane.setVvalue(1.0));
     }
 }
