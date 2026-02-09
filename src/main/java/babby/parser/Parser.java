@@ -340,7 +340,7 @@ public class Parser {
             }
         }
         if (matchIndex == 1) {
-            return "\tNo matching tasks found.";
+            return "No matching tasks found.";
         }
         if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == '\n') {
             sb.setLength(sb.length() - 1);
