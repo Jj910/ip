@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private final Babby babby = new Babby("data/tasks.txt");
+    private final Image titleIcon = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
 
     @Override
     public void start(Stage stage) {
@@ -25,6 +27,7 @@ public class Main extends Application {
             stage.setMinWidth(400);
             stage.setScene(scene);
             stage.setTitle("Babby | Your little companion friend <3");
+            stage.getIcons().add(titleIcon);
             fxmlLoader.<babby.ui.MainWindow>getController().startBabby(babby); // inject and start the Babby instance
             stage.show();
         } catch (IOException e) {
