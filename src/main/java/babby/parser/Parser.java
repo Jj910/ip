@@ -319,21 +319,7 @@ public class Parser {
      * Return variants of the commands' outputs (string-returning helpers)
      */
     private String getListOutput() {
-        if (babby.getTaskList().isEmpty()) {
-            return "\tYour task list is empty! Add some tasks first :)";
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append("\tHere are your tasks:\n");
-        int i = 1;
-        for (Task task : babby.getTaskList()) {
-            sb.append("\t\t").append(i).append(") ").append(task).append("\n");
-            i++;
-        }
-        // remove trailing newline
-        if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == '\n') {
-            sb.setLength(sb.length() - 1);
-        }
-        return sb.toString();
+        return babby.getTaskList().toString();
     }
 
     private String getFindOutput(String input) {
