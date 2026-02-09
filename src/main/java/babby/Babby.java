@@ -32,6 +32,14 @@ public class Babby {
         this.taskList = new TaskList();
     }
 
+    public String getWelcomeMessage() {
+        return this.ui.getWelcomeMessage();
+    }
+
+    public String getHelpMessage() {
+        return this.ui.getHelpMessage();
+    }
+
     /**
      * Returns the configured Storage component used for reading/writing tasks.
      *
@@ -135,14 +143,14 @@ public class Babby {
      * Print the help message (delegates to Ui).
      */
     public void help() {
-        this.ui.printHelp();
+        this.ui.printHelpMessage();
     }
 
     /**
      * Print goodbye message and perform any shutdown tasks (delegates to Ui).
      */
     public void byeCommand() {
-        this.ui.printGoodbye();
+        this.ui.printGoodbyeMessage();
     }
 
     /**

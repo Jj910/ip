@@ -7,8 +7,8 @@ public class UiTest {
     public void testUiMethodsDoNotThrow() {
         Ui ui = new Ui();
         ui.printLine("hello");
-        ui.printHelp();
+        ui.printHelpMessage();
         ui.printWelcomeMessage();
-        ui.printGoodbye();
+        ui.printGoodbyeMessage();
     }
 }

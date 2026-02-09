@@ -21,9 +21,11 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            stage.setMinHeight(220);
+            stage.setMinWidth(400);
             stage.setScene(scene);
             stage.setTitle("Babby | Your little companion friend <3");
-            fxmlLoader.<babby.ui.MainWindow>getController().setBabby(babby); // inject the Babby instance
+            fxmlLoader.<babby.ui.MainWindow>getController().startBabby(babby); // inject and start the Babby instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

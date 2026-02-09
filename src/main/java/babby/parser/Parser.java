@@ -407,20 +407,7 @@ public class Parser {
 
     @SuppressWarnings("checkstyle:Regexp")
     private String getHelpOutput() {
-        return """
-                ToDo {task} -> Adds a todo task
-                Deadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task
-                Event {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task
-                \n
-                List -> Lists all tasks
-                Find {text} -> Finds all tasks with your input, you can search for date/time too!
-                Mark {task number} -> Marks the task as done
-                Unmark {task number} -> Marks the task as not done
-                Delete {task number} -> Deletes the task from the list
-                \n
-                Help -> Shows this help message
-                Bye -> Exits the program :<
-                """;
+        return babby.getHelpMessage();
     }
 
     private String getByeOutput() {

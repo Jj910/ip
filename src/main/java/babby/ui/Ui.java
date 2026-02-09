@@ -13,6 +13,14 @@ public class Ui {
      * Prints the welcome message along with the ASCII art logo.
      */
     public void printWelcomeMessage() {
+        this.getWelcomeMessage();
+    }
+    /**
+     * Returns the welcome message string with ASCII art logo.
+     *
+     * @return Welcome message string.
+     */
+    public String getWelcomeMessage() {
         String logo = """
                  ______        _     _           _\s
                 (____  \\      | |   | |         | |\
@@ -24,29 +32,42 @@ public class Ui {
                 |______/\\_____|____/|____/ \\__  |_|\
 
                                           (____/  \s""";
-        System.out.println("Hello! I'm\n" + logo + "\nSo nice to meet you! Lets be friends <3"
-                + "\n----------------------------------\n");
-        System.out.println("What can I do for you?");
-        this.printHelp();
+        return "Hello! I'm Babby!\nSo nice to meet you! Lets be friends <3"
+                + "\n----------------------------------\n"
+                + this.getHelpMessage();
     }
 
-    public void printGoodbye() {
+    public void printGoodbyeMessage() {
         this.printLine("Byebyee! See you again soon!");
     }
 
     /**
      * Prints help message listing all commands.
      */
-    public void printHelp() {
-        this.printLine("ToDo {task} -> Adds a todo task");
-        this.printLine("Deadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task");
-        this.printLine("Event {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task\n");
-        this.printLine("List -> Lists all tasks");
-        this.printLine("Find {text} -> Finds all tasks with your input, you can search for date/time too!");
-        this.printLine("Mark {task number} -> Marks the task as done");
-        this.printLine("Unmark {task number} -> Marks the task as not done");
-        this.printLine("Delete {task number} -> Deletes the task from the list\n");
-        this.printLine("Help -> Shows this help message");
-        this.printLine("Bye -> Exits the program :<\n");
+    public void printHelpMessage() {
+        printLine(getHelpMessage());
+    }
+
+    /**
+     * Returns help message listing all commands.
+     *
+     * @return Help message string.
+     */
+    public String getHelpMessage() {
+        return """
+                Here are the commands you can use:
+                ToDo {task} -> Adds a todo task
+                Deadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task
+                Event {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task
+                \n
+                List -> Lists all tasks
+                Find {text} -> Finds all tasks with your input, you can search for date/time too!
+                Mark {task number} -> Marks the task as done
+                Unmark {task number} -> Marks the task as not done
+                Delete {task number} -> Deletes the task from the list
+                \n
+                Help -> Shows this help message
+                Bye -> Exits the program :<
+                """;
     }
 }

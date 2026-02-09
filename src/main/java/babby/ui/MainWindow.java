@@ -26,10 +26,13 @@ public class MainWindow extends AnchorPane {
 
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
     private final Image babbyImage = new Image(this.getClass().getResourceAsStream("/images/Babby.jpg"));
-
-    /** Injects the Babby instance */
-    public void setBabby(Babby b) {
+    /**
+     * Initializes the main window and binds the scroll pane to the dialog container height.
+     */
+    public void startBabby(Babby b) {
         babby = b;
+        String welcomeText = babby.getWelcomeMessage();
+        dialogContainer.getChildren().add(DialogBox.getBabbyDialog(welcomeText, babbyImage));
     }
 
     /**
