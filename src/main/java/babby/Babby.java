@@ -89,7 +89,7 @@ public class Babby {
     }
 
     /**
-     * Application entrypoint. Starts Babby with the default tasks file.
+     * Starts Babby with the default tasks file. Is the main application entrypoint.
      *
      * @param args command-line arguments (ignored)
      */
@@ -119,7 +119,7 @@ public class Babby {
     }
 
     /**
-     * Print the current tasks using the TaskList listing helper.
+     * Prints the current tasks using the TaskList listing helper.
      */
     public void list() {
         this.taskList.list();
@@ -133,28 +133,28 @@ public class Babby {
     }
 
     /**
-     * Find tasks given the input using the TaskList listing helper.
+     * Finds tasks given the input using the TaskList listing helper.
      */
     public void find(String input) {
         this.taskList.find(input);
     }
 
     /**
-     * Print the help message (delegates to Ui).
+     * Prints the help message (delegates to Ui).
      */
     public void help() {
         this.ui.printHelpMessage();
     }
 
     /**
-     * Print goodbye message and perform any shutdown tasks (delegates to Ui).
+     * Prints goodbye message and perform any shutdown tasks (delegates to Ui).
      */
     public void byeCommand() {
         this.ui.printGoodbyeMessage();
     }
 
     /**
-     * Print a single logical output line via the Ui.
+     * Prints a single logical output line via the Ui.
      *
      * @param message message to print
      */
