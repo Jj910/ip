@@ -27,6 +27,7 @@ public class Babby {
      * @param filepath path to the tasks file
      */
     public Babby(String filepath) {
+        assert filepath != null : "File path cannot be null";
         this.storage = new Storage(filepath);
         this.ui = new Ui();
         this.taskList = new TaskList();
