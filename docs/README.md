@@ -191,6 +191,7 @@ Advanced users can edit `data/tasks.txt` directly. Each line follows one of thes
 
 ---
 ## Command Summary
+
 | Command | Format | Example |
 | --- | --- | --- |
 | Help | `help` | `help` |
