@@ -192,7 +192,6 @@ Advanced users can edit `data/tasks.txt` directly. Each line follows one of thes
 ---
 ## Command Summary
 
-
 | Command | Format | Example |
 | --- | --- | --- |
 | Help | `help` | `help` |
@@ -206,3 +205,4 @@ Advanced users can edit `data/tasks.txt` directly. Each line follows one of thes
 | Delete | `delete <index>` | `delete 1` |
 | Find | `find <keyword>` | `find alice` |
 | Exit | `bye` | `bye` |
+
