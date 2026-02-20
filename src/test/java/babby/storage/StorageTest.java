@@ -7,6 +7,7 @@ import java.io.FileWriter;
 
 import org.junit.jupiter.api.Test;
 
+import babby.task.Friend;
 import babby.task.TaskList;
 
 public class StorageTest {
@@ -23,17 +24,22 @@ public class StorageTest {
         FileWriter fw = new FileWriter(f);
         fw.write("T | 0 | alpha" + System.lineSeparator());
         fw.write("T | 1 | beta" + System.lineSeparator());
+        fw.write("F | 1 | Charlie | 12345" + System.lineSeparator());
         fw.close();
 
         Storage storage = new Storage(tmpPath);
         TaskList loaded = storage.parseTasks();
-        assertEquals(2, loaded.size());
+        assertEquals(3, loaded.size());
+        Friend friend = (Friend) loaded.get(2);
+        assertEquals("Charlie", friend.getTitle());
+        assertEquals("F | 1 | Charlie | 12345", friend.toEncodedString());
 
         // modify and save
         loaded.remove(0);
         storage.saveTasks(loaded);
         TaskList reloaded = storage.parseTasks();
-        assertEquals(1, reloaded.size());
+        assertEquals(2, reloaded.size());
+        assertEquals("F | 1 | Charlie | 12345", ((Friend) reloaded.get(1)).toEncodedString());
 
         // cleanup
         f.delete();

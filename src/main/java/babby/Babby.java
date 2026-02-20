@@ -30,7 +30,13 @@ public class Babby {
         assert filepath != null : "File path cannot be null";
         this.storage = new Storage(filepath);
         this.ui = new Ui();
-        this.taskList = new TaskList();
+        // Attempt to load persisted tasks immediately so GUI usage loads existing data
+        try {
+            this.taskList = storage.parseTasks();
+        } catch (FileNotFoundException e) {
+            // If file not found, fall back to an empty TaskList
+            this.taskList = new TaskList();
+        }
     }
 
     public String getWelcomeMessage() {

@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private final Babby babby = new Babby("data/tasks.txt");
-    private final Image titleIcon = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
+    private final Image titleIcon = new Image(this.getClass().getResourceAsStream("/images/Babby.jpg"));
 
     @Override
     public void start(Stage stage) {
