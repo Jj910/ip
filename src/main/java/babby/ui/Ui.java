@@ -69,6 +69,7 @@ public class Ui {
                 \n
                 Help -> Shows this help message
                 Bye -> Exits the program :<
+                
                 """;
     }
 }
