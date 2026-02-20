@@ -476,7 +476,7 @@ public class Parser {
         UNMARK("unmark"),
         DELETE("delete"),
         HELP("help"),
-        BYE("byeCommand"),
+        BYE("bye"),
         UNKNOWN("");
 
         private final String command;
