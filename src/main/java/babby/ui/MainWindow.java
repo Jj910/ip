@@ -40,7 +40,7 @@ public class MainWindow extends AnchorPane {
      * the dialog container. Clears the user input after processing.
      */
     @FXML
-    private void handleUserInput() {
+    private void handleUserInput() throws InterruptedException {
         String input = userInput.getText();
         String response = babby.getResponse(input);
         dialogContainer.getChildren().addAll(
@@ -49,5 +49,8 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
         Platform.runLater(() -> scrollPane.setVvalue(1.0));
+        if ("Byebyee! See you again soon!".equals(response)) {
+            Platform.runLater(Platform::exit);
+        }
     }
 }
