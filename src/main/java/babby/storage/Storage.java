@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import babby.task.Deadline;
 import babby.task.Event;
+import babby.task.Friend;
 import babby.task.Task;
 import babby.task.TaskList;
 import babby.task.ToDo;
@@ -52,7 +53,7 @@ public class Storage {
         File tasksFile = new File(filepath);
 
         try {
-            System.out.println("Loading task file...");
+            System.out.println("Loading task file: " + tasksFile.getAbsolutePath());
             if (tasksFile.createNewFile()) {
                 System.out.println("File not found! New task file created");
             } else {
@@ -70,9 +71,10 @@ public class Storage {
      * @throws FileNotFoundException If given file is not found.
      */
     public TaskList parseTasks() throws FileNotFoundException {
-        System.out.println("Hold on... I'm reading the tasks...");
+        System.out.println("Hold on... I'm reading the tasks from: " + taskFile.getAbsolutePath());
         TaskList taskList = new TaskList();
         Scanner s = new Scanner(taskFile);
+        int loaded = 0;
         while (s.hasNextLine()) {
             String nextLine = s.nextLine();
             String[] taskLine = nextLine.split(" \\| ");
@@ -89,7 +91,10 @@ public class Storage {
             // Parse for each type of task then add to the task list
             try {
                 switch (taskType) {
-                case "T" -> taskList.add(new ToDo(taskTitle, isComplete)); // To Do
+                case "T" -> {
+                    taskList.add(new ToDo(taskTitle, isComplete));
+                    loaded++;
+                }
                 case "D" -> {
                     // Expect an additional field for the deadline time
                     if (taskLine.length < 4) {
@@ -97,7 +102,8 @@ public class Storage {
                         break;
                     }
                     LocalDateTime by = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
-                    taskList.add(new Deadline(taskTitle, by, isComplete)); // Deadline
+                    taskList.add(new Deadline(taskTitle, by, isComplete));
+                    loaded++;
                 }
                 case "E" -> {
                     // Expect two additional fields for from and to
@@ -107,7 +113,17 @@ public class Storage {
                     }
                     LocalDateTime from = LocalDateTime.parse(taskLine[3], FILE_FORMATTER);
                     LocalDateTime to = LocalDateTime.parse(taskLine[4], FILE_FORMATTER);
-                    taskList.add(new Event(taskTitle, from, to, isComplete)); // Event
+                    taskList.add(new Event(taskTitle, from, to, isComplete));
+                    loaded++;
+                }
+                case "F" -> {
+                    if (taskLine.length < 4) {
+                        System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
+                        break;
+                    }
+                    int number = Integer.parseInt(taskLine[3]);
+                    taskList.add(new Friend(taskTitle, number, isComplete));
+                    loaded++;
                 }
                 default -> System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
                 }
@@ -115,7 +131,7 @@ public class Storage {
                 System.out.println("I can't read this task:\n\t\"" + nextLine + "\"\nSkipping it...");
             }
         }
-        System.out.println("Tasks loaded!");
+        System.out.println("Tasks loaded: " + loaded);
         return taskList;
     }
 
@@ -124,11 +140,18 @@ public class Storage {
      **/
     public void saveTasks(TaskList taskList) {
         try {
+            // Safety: avoid overwriting an existing non-empty file with an empty list
+            if ((taskList == null || taskList.size() == 0) && taskFile.exists() && taskFile.length() > 0) {
+                System.out.println("Skipping save: in-memory task list empty but " + taskFile.getAbsolutePath() + " contains data. Preventing accidental overwrite.");
+                return;
+            }
+            System.out.println("Saving " + (taskList == null ? 0 : taskList.size()) + " tasks to: " + taskFile.getAbsolutePath());
             FileWriter fw = new FileWriter(taskFile);
             for (Task task : taskList) {
                 fw.write(task.toEncodedString() + System.lineSeparator());
             }
             fw.close();
+            System.out.println("Save complete.");
         } catch (IOException e) {
             System.out.println("Error saving task: " + e.getMessage());
         }

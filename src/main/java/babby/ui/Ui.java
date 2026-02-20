@@ -59,6 +59,7 @@ public class Ui {
                 ToDo {task} -> Adds a todo task
                 Deadline {task} /by {DD/MM/YYYY HHMM} -> Adds a deadline task
                 Event {task} /from {DD/MM/YYYY HHMM} /to {DD/MM/YYYY HHMM} -> Adds a event task
+                Friend {name} /number {phone number} -> Adds a friend to your friend list
                 \n
                 List -> Lists all tasks
                 Find {text} -> Finds all tasks with your input, you can search for date/time too!

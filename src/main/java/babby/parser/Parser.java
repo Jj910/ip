@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import babby.Babby;
+import babby.task.Friend;
 import babby.task.Deadline;
 import babby.task.Event;
 import babby.task.Task;
@@ -48,6 +49,7 @@ public class Parser {
         case TODO -> todo(notNullInput);
         case DEADLINE -> deadline(notNullInput);
         case EVENT -> event(notNullInput);
+        case FRIEND -> addFriend(notNullInput);
         case LIST -> babby.list();
         case FIND -> find(notNullInput);
         case MARK -> mark(notNullInput);
@@ -91,6 +93,9 @@ public class Parser {
         }
         case EVENT -> {
             return getEventOutput(notNullInput);
+        }
+        case FRIEND -> {
+            return getAddFriendOutput(notNullInput);
         }
         case LIST -> {
             return getListOutput();
@@ -236,6 +241,51 @@ public class Parser {
                     + "\nYou have " + babby.getTaskList().size() + " tasks in the list now!";
         } catch (DateTimeParseException e) {
             return "Oopsie! The date/time you provided is wrong. Please use DD/MM/YYYY HHMM";
+        }
+    }
+
+    private void addFriend(String input) {
+        String[] inputList = input.split("friend ");
+        if (inputList.length < 2 || inputList[1].isBlank()) {
+            babby.printLine("Oopsie! The description of a friend cannot be empty :<");
+            return;
+        }
+        String[] friendInfo = inputList[1].split(" /number ");
+        if (friendInfo.length < 2 || friendInfo[0].isBlank() || friendInfo[1].isBlank()) {
+            babby.printLine("Oopsie! You didn't follow the command's format! :<");
+            babby.printLine("Try something like \"friend Alice /number 12345678\"");
+            return;
+        }
+        try {
+            int number = Integer.parseInt(friendInfo[1]);
+            Friend friend = new Friend(friendInfo[0], number);
+            babby.getTaskList().add(friend);
+            babby.getStorage().saveTasks(babby.getTaskList());
+            babby.printLine("Okay, I added this friend: " + friend);
+            babby.printLine("You have " + babby.getTaskList().size() + " tasks/friends in the list now!");
+        } catch (NumberFormatException e) {
+            babby.printLine("Oopsie! The number you provided is not valid. Please enter a valid number.");
+        }
+    }
+
+    private String getAddFriendOutput(String input) {
+        String[] inputList = input.split("friend ");
+        if (inputList.length < 2 || inputList[1].isBlank()) {
+            return "Oopsie! The description of a friend cannot be empty :<";
+        }
+        String[] friendInfo = inputList[1].split(" /number ");
+        if (friendInfo.length < 2 || friendInfo[0].isBlank() || friendInfo[1].isBlank()) {
+            return "Oopsie! You didn't follow the command's format! :<" + "\nTry something like \"friend Alice /number 12345678\"";
+        }
+        try {
+            int number = Integer.parseInt(friendInfo[1]);
+            Friend friend = new Friend(friendInfo[0], number);
+            babby.getTaskList().add(friend);
+            babby.getStorage().saveTasks(babby.getTaskList());
+            return "Okay, I added this friend: " + friend + "\nYou have "
+                    + babby.getTaskList().size() + " tasks/friends in the list now!";
+        } catch (NumberFormatException e) {
+            return "Oopsie! The number you provided is not valid. Please enter a valid number.";
         }
     }
 
@@ -419,6 +469,7 @@ public class Parser {
         TODO("todo"),
         DEADLINE("deadline"),
         EVENT("event"),
+        FRIEND("friend"),
         LIST("list"),
         FIND("find"),
         MARK("mark"),
@@ -447,3 +498,5 @@ public class Parser {
         }
     }
 }
+
+

@@ -96,6 +96,12 @@ public class ParserTest {
         assertEquals(3, babby.getTaskList().size());
         assertTrue(babby.getOutputs().stream().anyMatch(s -> s.contains("Okay, I added this task")));
 
+        // FRIEND
+        cont = parser.parseAndExecute("friend Alice /number 12345678");
+        assertTrue(cont);
+        assertEquals(4, babby.getTaskList().size());
+        assertTrue(babby.getOutputs().stream().anyMatch(s -> s.contains("added this friend")));
+
         // UNKNOWN
         cont = parser.parseAndExecute("nonsensecommand");
         assertTrue(cont);
