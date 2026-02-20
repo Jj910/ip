@@ -26,5 +26,7 @@ The user guide can be found [here](https://jj910.github.io/ip/).
 | Delete | `delete <index>` | `delete 1` |
 | Find | `find <keyword>` | `find alice` |
 | Exit | `bye` | `bye` |
+
+---
 AI Use Acknowledgment:
 This project's test cases were generated with the assistance of GitHub Copilot.
